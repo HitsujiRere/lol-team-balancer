@@ -1,6 +1,6 @@
 "use client";
 
-import { LobbyLogInput } from "@/features/LobbyLogInput";
+import { LobbyLogInput } from "/features/LobbyLogInput";
 import { Chat } from "@phosphor-icons/react";
 
 export default function Home() {
