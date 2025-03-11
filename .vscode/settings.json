@@ -1,0 +1,7 @@
+{
+  "editor.tabSize": 2,
+  "biome.enabled": true,
+  "[typescript][typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}
