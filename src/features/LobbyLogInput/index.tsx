@@ -1,18 +1,16 @@
+import { useSetAtom } from "jotai/react";
 import type React from "react";
-
-const parseLogToNames = (log: string): string[] => {
-  // 制御文字を削除
-  const formattedLog = log.replaceAll("\u2066", "").replaceAll("\u2069", "");
-  // "サモナー名 #タグライン"を抽出
-  const regex = /^([^#]+ #[A-Za-z0-9]{3,5})/gm;
-  const match = formattedLog.match(regex);
-  return match ?? [];
-};
+import { summonersReducerAtom } from "/stores/summoners";
+import { newSummoner } from "/utils/summoner";
+import { parseLogToNames } from "./utils/parse";
 
 export const LobbyLogInput = () => {
+  const updateSummoners = useSetAtom(summonersReducerAtom);
+
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const names = parseLogToNames(event.target.value);
-    console.log({ names });
+    const summoners = names.map((name) => newSummoner({ name }));
+    updateSummoners({ type: "addMany", summoners });
   };
 
   return (

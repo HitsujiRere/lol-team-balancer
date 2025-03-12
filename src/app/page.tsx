@@ -1,7 +1,8 @@
 "use client";
 
-import { LobbyLogInput } from "/features/LobbyLogInput";
 import { Chat } from "@phosphor-icons/react";
+import { LobbyLogInput } from "/features/LobbyLogInput";
+import { SummonersTable } from "/features/SummonersTable";
 
 export default function Home() {
   return (
@@ -11,13 +12,17 @@ export default function Home() {
       </header>
 
       <main className="flex">
-        <div className="flex-1">
+        <div className="flex-1 space-y-4">
           <div>
             <div className="mb-2 flex items-center gap-2">
               <Chat />
               <span>ロビーチャット欄</span>
             </div>
             <LobbyLogInput />
+          </div>
+
+          <div>
+            <SummonersTable />
           </div>
         </div>
 
