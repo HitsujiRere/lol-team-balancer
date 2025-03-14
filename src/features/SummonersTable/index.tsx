@@ -1,5 +1,6 @@
 import { useAtom } from "jotai/react";
 import { summonersReducerAtom } from "/stores/summoners";
+import { TableFoot } from "./components/TableFoot";
 import { TableRow } from "./components/TableRow";
 
 export const SummonersTable = () => {
@@ -32,11 +33,16 @@ export const SummonersTable = () => {
           <th className="text-center">削除</th>
         </tr>
       </thead>
+
       <tbody>
         {Object.keys(summoners).map((name, index) => (
           <TableRow key={name} name={name} index={index + 1} />
         ))}
       </tbody>
+
+      <tfoot>
+        <TableFoot />
+      </tfoot>
     </table>
   );
 };

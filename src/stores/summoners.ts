@@ -7,7 +7,8 @@ type SummonersAtomAction =
   | { type: "updateAll"; changes: Partial<Omit<Summoner, "name">> }
   | { type: "add"; summoner: Summoner }
   | { type: "addMany"; summoners: Summoner[] }
-  | { type: "remove"; name: string };
+  | { type: "remove"; name: string }
+  | { type: "removeAll" };
 
 const toSummonerRecord = (summoners: Summoner[]) =>
   Object.fromEntries(summoners.map((summoner) => [summoner.name, summoner]));
@@ -44,6 +45,9 @@ export const summonersReducerAtom = atomWithReducer(
           .filter((summoner) => summoner.name !== action.name)
           .map((summoner) => [summoner.name, summoner]),
       );
+    }
+    if (action.type === "removeAll") {
+      return {};
     }
     return prev;
   },

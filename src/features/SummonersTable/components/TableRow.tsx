@@ -1,15 +1,16 @@
 import {
-  Link,
+  Link as LinkIcon,
   Microphone,
   MicrophoneSlash,
   Trash,
 } from "@phosphor-icons/react";
+import classNames from "classnames";
 import { useAtom } from "jotai/react";
 import React from "react";
 import { TierSelect } from "/components/TierSelect";
 import { summonerReducerFamily } from "/stores/summoners";
 import { toOpggAddress } from "/utils/summoner";
-import classNames from "classnames";
+import Link from "next/link";
 
 type TableRowProps = { name: string; index: number };
 
@@ -17,7 +18,7 @@ export const TableRow = React.memo(({ name, index }: TableRowProps) => {
   const [summoner, updateSummoner] = useAtom(summonerReducerFamily(name));
 
   return (
-    <tr>
+    <tr className={classNames({ "bg-base-200": summoner.isActive })}>
       <td>{index}</td>
       <td className="text-center">
         <input
@@ -34,13 +35,7 @@ export const TableRow = React.memo(({ name, index }: TableRowProps) => {
         />
       </td>
       <td>
-        <span
-          className={classNames("select-all", {
-            "font-bold": summoner.isActive,
-          })}
-        >
-          {summoner.name}
-        </span>
+        <span className="select-all">{summoner.name}</span>
       </td>
       <td>
         <TierSelect
@@ -52,11 +47,11 @@ export const TableRow = React.memo(({ name, index }: TableRowProps) => {
         />
       </td>
       <td className="text-center">
-        <a href={toOpggAddress(summoner)} target="_blank" rel="noreferrer">
+        <Link href={toOpggAddress(summoner)} target="_blank" rel="noreferrer">
           <button type="button" className="btn btn-circle btn-ghost">
-            <Link className="h-4 w-4" />
+            <LinkIcon className="h-4 w-4" />
           </button>
-        </a>
+        </Link>
       </td>
       <td className="text-center">
         <label className="swap swap-rotate btn btn-ghost btn-circle place-items-center">
