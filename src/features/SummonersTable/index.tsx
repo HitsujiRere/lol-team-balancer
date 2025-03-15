@@ -1,31 +1,17 @@
-import { useAtom } from "jotai/react";
+import { useAtomValue } from "jotai/react";
 import { summonersReducerAtom } from "/stores/summoners";
-import { TableFoot } from "./components/TableFoot";
-import { TableRow } from "./components/TableRow";
+import { ActionRow } from "./components/ActionRow";
+import { SummonerRow } from "./components/SummonerRow";
 
 export const SummonersTable = () => {
-  const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
+  const summoners = useAtomValue(summonersReducerAtom);
 
   return (
     <table className="table">
       <thead>
         <tr>
-          <th className="" />
-          <th className="text-center">
-            <input
-              type="checkbox"
-              className="checkbox"
-              checked={Object.values(summoners).some(
-                (summoner) => summoner.isActive,
-              )}
-              onChange={(e) =>
-                updateSummoners({
-                  type: "updateAll",
-                  changes: { isActive: e.target.checked },
-                })
-              }
-            />
-          </th>
+          <th />
+          <th className="text-center">試合参加</th>
           <th>サモナー名</th>
           <th>ランク</th>
           <th className="text-center">OP.GG</th>
@@ -35,14 +21,12 @@ export const SummonersTable = () => {
       </thead>
 
       <tbody>
+        <ActionRow />
+
         {Object.keys(summoners).map((name, index) => (
-          <TableRow key={name} name={name} index={index + 1} />
+          <SummonerRow key={name} name={name} index={index + 1} />
         ))}
       </tbody>
-
-      <tfoot>
-        <TableFoot />
-      </tfoot>
     </table>
   );
 };

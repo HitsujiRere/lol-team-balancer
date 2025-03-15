@@ -9,7 +9,3 @@ export const newSummoner = (init?: Partial<Summoner>): Summoner => {
     ...init,
   };
 };
-
-export const toOpggAddress = (summoner: Summoner) => {
-  return `https://www.op.gg/summoners/jp/${summoner.name.replace(" #", "-")}`;
-};

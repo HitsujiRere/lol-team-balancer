@@ -31,12 +31,23 @@ export const summonersReducerAtom = atomWithReducer(
       );
     }
     if (action.type === "add") {
-      return { ...prev, [action.summoner.name]: action.summoner };
+      return {
+        ...prev,
+        [action.summoner.name]: {
+          ...action.summoner,
+          ...prev[action.summoner.name],
+        },
+      };
     }
     if (action.type === "addMany") {
       return {
         ...prev,
-        ...toSummonerRecord(action.summoners),
+        ...toSummonerRecord(
+          action.summoners.map((summoner) => ({
+            ...summoner,
+            ...prev[summoner.name],
+          })),
+        ),
       };
     }
     if (action.type === "remove") {

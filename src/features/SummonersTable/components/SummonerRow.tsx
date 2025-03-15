@@ -1,25 +1,23 @@
-import {
-  Link as LinkIcon,
-  Microphone,
-  MicrophoneSlash,
-  Trash,
-} from "@phosphor-icons/react";
+import { Link as LinkIcon, Trash } from "@phosphor-icons/react";
 import classNames from "classnames";
 import { useAtom } from "jotai/react";
+import Link from "next/link";
 import React from "react";
+import { MuteCheckbox } from "/components/MuteCheckbox";
 import { TierSelect } from "/components/TierSelect";
 import { summonerReducerFamily } from "/stores/summoners";
-import { toOpggAddress } from "/utils/summoner";
-import Link from "next/link";
+import { toOpggAddress } from "../utils/summoner";
 
 type TableRowProps = { name: string; index: number };
 
-export const TableRow = React.memo(({ name, index }: TableRowProps) => {
+export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
   const [summoner, updateSummoner] = useAtom(summonerReducerFamily(name));
+
+  const opggAddress = toOpggAddress(summoner);
 
   return (
     <tr className={classNames({ "bg-base-200": summoner.isActive })}>
-      <td>{index}</td>
+      <th>{index}</th>
       <td className="text-center">
         <input
           type="checkbox"
@@ -47,28 +45,21 @@ export const TableRow = React.memo(({ name, index }: TableRowProps) => {
         />
       </td>
       <td className="text-center">
-        <Link href={toOpggAddress(summoner)} target="_blank" rel="noreferrer">
-          <button type="button" className="btn btn-circle btn-ghost">
-            <LinkIcon className="h-4 w-4" />
-          </button>
-        </Link>
+        {opggAddress !== undefined && (
+          <Link href={opggAddress ?? ""} target="_blank" rel="noreferrer">
+            <button type="button" className="btn btn-circle btn-ghost">
+              <LinkIcon className="h-4 w-4" />
+            </button>
+          </Link>
+        )}
       </td>
       <td className="text-center">
-        <label className="swap swap-rotate btn btn-ghost btn-circle place-items-center">
-          <input
-            type="checkbox"
-            checked={summoner.isMute}
-            onChange={(e) =>
-              updateSummoner({
-                type: "update",
-                name,
-                changes: { isMute: e.target.checked },
-              })
-            }
-          />
-          <Microphone className="swap-off h-4 w-4" />
-          <MicrophoneSlash className="swap-on h-4 w-4" weight="fill" />
-        </label>
+        <MuteCheckbox
+          isMute={summoner.isMute}
+          onChange={(isMute) =>
+            updateSummoner({ type: "update", name, changes: { isMute } })
+          }
+        />
       </td>
       <td className="text-center">
         <button
