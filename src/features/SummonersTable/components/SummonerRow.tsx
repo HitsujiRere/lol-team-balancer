@@ -1,19 +1,16 @@
-import { Link as LinkIcon, Trash } from "@phosphor-icons/react";
+import { Trash } from "@phosphor-icons/react";
 import classNames from "classnames";
 import { useAtom } from "jotai/react";
-import Link from "next/link";
 import React from "react";
 import { MuteCheckbox } from "/components/MuteCheckbox";
+import { OpggLink } from "/components/OpggLink";
 import { TierSelect } from "/components/TierSelect";
 import { summonerReducerFamily } from "/stores/Summoner";
-import { toOpggAddress } from "../utils/summoner";
 
 type TableRowProps = { name: string; index: number };
 
 export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
   const [summoner, updateSummoner] = useAtom(summonerReducerFamily(name));
-
-  const opggAddress = toOpggAddress(summoner);
 
   return (
     <tr className={classNames({ "bg-base-200": summoner.isActive })}>
@@ -41,17 +38,10 @@ export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
           onChange={(tier) =>
             updateSummoner({ type: "update", name, changes: { tier } })
           }
-          className="w-32"
         />
       </td>
       <td className="text-center">
-        {opggAddress !== undefined && (
-          <Link href={opggAddress ?? ""} target="_blank" rel="noreferrer">
-            <button type="button" className="btn btn-circle btn-ghost">
-              <LinkIcon className="h-4 w-4" />
-            </button>
-          </Link>
-        )}
+        <OpggLink summoner={summoner} />
       </td>
       <td className="text-center">
         <MuteCheckbox

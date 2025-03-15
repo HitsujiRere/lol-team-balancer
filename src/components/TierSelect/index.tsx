@@ -20,7 +20,7 @@ export const TierSelect = ({
   return (
     <select
       {...props}
-      className={classNames("select", className, {
+      className={classNames("select w-32", className, {
         "bg-base-100": tier === "Unranked",
         "bg-lol-iron": tier.includes("Iron"),
         "bg-lol-bronze": tier.includes("Bronze"),

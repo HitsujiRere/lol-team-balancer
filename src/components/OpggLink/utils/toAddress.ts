@@ -1,6 +1,6 @@
 import type { Summoner } from "/types/Summoner";
 
-export const toOpggAddress = (summoner: Summoner): string | undefined => {
+export const toAddress = (summoner: Summoner): string | undefined => {
   if (!/^.+ ?#.+$/.test(summoner.name)) {
     return undefined;
   }
