@@ -1,11 +1,11 @@
 "use client";
 
+import { Bug } from "@phosphor-icons/react";
 import { useSetAtom } from "jotai/react";
 import React from "react";
 import { summonersReducerAtom } from "/stores/Summoner";
 import { newSummoner } from "/types/Summoner";
 import { TierList } from "/types/Tier";
-import { Bug } from "@phosphor-icons/react";
 
 export const DebugActions = React.memo(() => {
   const updateSummoners = useSetAtom(summonersReducerAtom);
@@ -13,9 +13,20 @@ export const DebugActions = React.memo(() => {
   const handleAddSummoners = () => {
     updateSummoners({
       type: "addMany",
-      summoners: "ABCDEFGHIJ".split("").map((name) =>
+      summoners: [
+        "りんご",
+        "バナナ",
+        "ぶどう",
+        "いちご",
+        "みかん",
+        "スイカ",
+        "もも",
+        "パイナップル",
+        "さくらんぼ",
+        "マンゴー",
+      ].map((name) =>
         newSummoner({
-          name,
+          name: `${name} #JP0`,
           tier: TierList[Math.floor(Math.random() * TierList.length)],
         }),
       ),

@@ -1,6 +1,7 @@
 import { DebugActions } from "/features/DebugActions";
 import { LobbyLogInput } from "/features/LobbyLogInput";
 import { SummonersTable } from "/features/SummonersTable";
+import { GamePlanList } from "../features/GamePlanList";
 
 export default function Home() {
   return (
@@ -17,7 +18,9 @@ export default function Home() {
           <SummonersTable />
         </div>
 
-        <div className="flex-1" />
+        <div className="flex-1">
+          <GamePlanList />
+        </div>
       </main>
     </div>
   );
