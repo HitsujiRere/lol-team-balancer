@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { MuteCheckbox } from "/components/MuteCheckbox";
 import { TierSelect } from "/components/TierSelect";
-import { summonerReducerFamily } from "/stores/summoners";
+import { summonerReducerFamily } from "/stores/Summoner";
 import { toOpggAddress } from "../utils/summoner";
 
 type TableRowProps = { name: string; index: number };

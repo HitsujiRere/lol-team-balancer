@@ -6,3 +6,13 @@ export type Summoner = {
   tier: Tier;
   isMute: boolean;
 };
+
+export const newSummoner = (init?: Partial<Summoner>): Summoner => {
+  return {
+    name: "",
+    isActive: true,
+    tier: "Unranked",
+    isMute: false,
+    ...init,
+  };
+};

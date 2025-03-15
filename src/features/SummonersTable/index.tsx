@@ -1,5 +1,5 @@
 import { useAtomValue } from "jotai/react";
-import { summonersReducerAtom } from "/stores/summoners";
+import { summonersReducerAtom } from "/stores/Summoner";
 import { ActionRow } from "./components/ActionRow";
 import { SummonerRow } from "./components/SummonerRow";
 
