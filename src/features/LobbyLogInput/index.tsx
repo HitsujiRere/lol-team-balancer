@@ -3,9 +3,9 @@
 import { Chat } from "@phosphor-icons/react";
 import { useSetAtom } from "jotai/react";
 import type React from "react";
-import { summonersReducerAtom } from "/stores/Summoner";
-import { newSummoner } from "/types/Summoner";
-import { trimControlChar } from "/utils/string";
+import { summonersReducerAtom } from "~/stores/Summoner";
+import { newSummoner } from "~/types/Summoner";
+import { trimControlChar } from "~/utils/string";
 import { parseMessagesToNames } from "./utils/parse";
 
 export const LobbyLogInput = () => {

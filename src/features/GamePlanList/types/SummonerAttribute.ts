@@ -1,4 +1,4 @@
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 import { tierToPoint } from "../utils/tierToPoint";
 
 export type SummonerAttribute = Pick<Summoner, "name" | "isMute"> & {

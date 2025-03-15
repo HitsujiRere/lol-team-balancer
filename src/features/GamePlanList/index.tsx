@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { useAtomValue } from "jotai/react";
 import { useState } from "react";
-import { summonersReducerAtom } from "/stores/Summoner";
+import { summonersReducerAtom } from "~/stores/Summoner";
 import { GameCards } from "./components/GameCards";
 import type { GamePlan } from "./types/GamePlan";
 import { makePlans } from "./utils/makePlans";

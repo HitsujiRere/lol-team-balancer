@@ -1,4 +1,4 @@
-import { TierList } from "/types/Tier";
+import { TierList } from "~/types/Tier";
 import type { TeamPlan } from "../types/TeamPlan";
 import { SummonerCard } from "./SummonerCard";
 

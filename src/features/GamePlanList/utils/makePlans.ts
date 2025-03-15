@@ -1,4 +1,4 @@
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 import { type GamePlan, newGamePlan } from "../types/GamePlan";
 import { summonerAttributeFrom } from "../types/SummonerAttribute";
 import { calcAveragePoint } from "./calcAveragePoint";

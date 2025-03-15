@@ -1,4 +1,4 @@
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 import { sumof } from "./sumof";
 import { tierToPoint } from "./tierToPoint";
 

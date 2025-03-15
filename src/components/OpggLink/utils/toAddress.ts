@@ -1,4 +1,4 @@
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 
 export const toAddress = (summoner: Summoner): string | undefined => {
   if (!/^.+ ?#.+$/.test(summoner.name)) {

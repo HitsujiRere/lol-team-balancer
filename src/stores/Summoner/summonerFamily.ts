@@ -1,6 +1,6 @@
 import { atomFamily } from "jotai/utils";
 import { atom } from "jotai/vanilla";
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 import { type SummonersAtomAction, summonersReducerAtom } from "./summoners";
 
 type PickByType<T extends { type: string }, U extends T["type"]> = T extends {

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type React from "react";
-import type { OverWrite } from "/types/util";
+import type { OverWrite } from "~/types/util";
 import { type Tier, TierList } from "../../types/Tier";
 
 type TierSelectProps = OverWrite<

@@ -1,7 +1,7 @@
 import { X } from "@phosphor-icons/react";
 import { useAtom } from "jotai/react";
 import type { Ref } from "react";
-import { debugmodeAtom } from "/stores/debugmode";
+import { debugmodeAtom } from "~/stores/debugmode";
 
 export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
   const [debugmode, setDebugmode] = useAtom(debugmodeAtom);

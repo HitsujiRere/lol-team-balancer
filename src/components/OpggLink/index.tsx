@@ -1,6 +1,6 @@
 import { Link as LinkIcon } from "@phosphor-icons/react";
 import Link from "next/link";
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 import { toAddress } from "./utils/toAddress";
 
 export const OpggLink = ({ summoner }: { summoner: Summoner }) => {

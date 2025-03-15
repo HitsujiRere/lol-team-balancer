@@ -1,7 +1,7 @@
-import { GamePlanList } from "/features/GamePlanList";
-import { Header } from "/features/Header";
-import { LobbyLogInput } from "/features/LobbyLogInput";
-import { SummonersTable } from "/features/SummonersTable";
+import { GamePlanList } from "~/features/GamePlanList";
+import { Header } from "~/features/Header";
+import { LobbyLogInput } from "~/features/LobbyLogInput";
+import { SummonersTable } from "~/features/SummonersTable";
 
 export default function Home() {
   return (

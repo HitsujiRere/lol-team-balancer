@@ -2,10 +2,10 @@ import { Trash } from "@phosphor-icons/react";
 import classNames from "classnames";
 import { useAtom } from "jotai/react";
 import React from "react";
-import { MuteCheckbox } from "/components/MuteCheckbox";
-import { OpggLink } from "/components/OpggLink";
-import { TierSelect } from "/components/TierSelect";
-import { summonerReducerFamily } from "/stores/Summoner";
+import { MuteCheckbox } from "~/components/MuteCheckbox";
+import { OpggLink } from "~/components/OpggLink";
+import { TierSelect } from "~/components/TierSelect";
+import { summonerReducerFamily } from "~/stores/Summoner";
 
 type TableRowProps = { name: string; index: number };
 

@@ -1,12 +1,12 @@
 "use client";
 
 import { Gear, Info } from "@phosphor-icons/react";
+import { useAtomValue } from "jotai/react";
 import { createRef } from "react";
+import { debugmodeAtom } from "~/stores/debugmode";
 import { DebugActions } from "./components/DebugActions";
 import { InfoModal } from "./components/InfoModal";
 import { SettingsModal } from "./components/SettingsModal";
-import { useAtomValue } from "jotai/react";
-import { debugmodeAtom } from "/stores/debugmode";
 
 export const Header = () => {
   const debugmode = useAtomValue(debugmodeAtom);

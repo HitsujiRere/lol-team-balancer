@@ -1,5 +1,5 @@
 import { atomWithReducer } from "jotai/utils";
-import type { Summoner } from "/types/Summoner";
+import type { Summoner } from "~/types/Summoner";
 
 export type SummonersAtomAction =
   | { type: "update"; name: string; changes: Partial<Omit<Summoner, "name">> }

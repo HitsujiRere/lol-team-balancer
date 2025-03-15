@@ -2,9 +2,9 @@ import { Trash, UserPlus } from "@phosphor-icons/react";
 import { useAtom } from "jotai/react";
 import type React from "react";
 import { useState } from "react";
-import { summonersReducerAtom } from "/stores/Summoner";
-import { newSummoner } from "/types/Summoner";
-import { trimControlChar } from "/utils/string";
+import { summonersReducerAtom } from "~/stores/Summoner";
+import { newSummoner } from "~/types/Summoner";
+import { trimControlChar } from "~/utils/string";
 
 export const ActionRow = () => {
   const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
