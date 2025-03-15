@@ -7,24 +7,26 @@ import { summonersReducerAtom } from "/stores/Summoner";
 import { newSummoner } from "/types/Summoner";
 import { TierList } from "/types/Tier";
 
+const debugSummoners = [
+  "りんご",
+  "バナナ",
+  "ぶどう",
+  "いちご",
+  "みかん",
+  "スイカ",
+  "もも",
+  "パイナップル",
+  "さくらんぼ",
+  "マンゴー",
+] as const;
+
 export const DebugActions = React.memo(() => {
   const updateSummoners = useSetAtom(summonersReducerAtom);
 
-  const handleAddSummoners = () => {
+  const handleAddRandomSummoners = () => {
     updateSummoners({
       type: "addMany",
-      summoners: [
-        "りんご",
-        "バナナ",
-        "ぶどう",
-        "いちご",
-        "みかん",
-        "スイカ",
-        "もも",
-        "パイナップル",
-        "さくらんぼ",
-        "マンゴー",
-      ].map((name) =>
+      summoners: debugSummoners.map((name) =>
         newSummoner({
           name: `${name} #JP0`,
           tier: TierList[Math.floor(Math.random() * TierList.length)],
@@ -33,15 +35,35 @@ export const DebugActions = React.memo(() => {
     });
   };
 
+  const handleAddLowRateSummoners = () => {
+    updateSummoners({
+      type: "addMany",
+      summoners: debugSummoners.map((name) =>
+        newSummoner({
+          name: `${name} #JP0`,
+          tier: TierList[Math.floor(Math.random() * 17)],
+        }),
+      ),
+    });
+  };
+
   return (
-    <div>
+    <div className="flex gap-2">
       <button
         type="button"
         className="btn btn-accent"
-        onClick={handleAddSummoners}
+        onClick={handleAddRandomSummoners}
       >
         <Bug />
-        テストサモナー追加
+        テスト: ランダムサモナー追加
+      </button>
+      <button
+        type="button"
+        className="btn btn-accent"
+        onClick={handleAddLowRateSummoners}
+      >
+        <Bug />
+        テスト: Unrank~Goldサモナー追加
       </button>
     </div>
   );

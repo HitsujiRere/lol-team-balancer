@@ -4,6 +4,7 @@ export type GamePlan = {
   blue: TeamPlan;
   red: TeamPlan;
   diffPoint: number;
+  diffSpread: number;
 };
 
 export const newGamePlan = (): GamePlan => {
@@ -11,11 +12,14 @@ export const newGamePlan = (): GamePlan => {
     blue: {
       summoners: [],
       point: 0,
+      spread: 0,
     },
     red: {
       summoners: [],
       point: 0,
+      spread: 0,
     },
     diffPoint: 0,
+    diffSpread: 0,
   };
 };

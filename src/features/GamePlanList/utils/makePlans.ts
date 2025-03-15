@@ -27,6 +27,7 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
       }
     });
 
+    // 同じサモナー数であること
     if (plan.blue.summoners.length !== plan.red.summoners.length) {
       continue;
     }
@@ -37,6 +38,7 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     const redMuteCount = sumof(
       plan.red.summoners.map((summoner) => (summoner.isMute ? 1 : 0)),
     );
+    // 聞き専が偏らない
     if (Math.abs(blueMuteCount - redMuteCount) >= 2) {
       continue;
     }
@@ -49,11 +51,25 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     );
     plan.diffPoint = Math.abs(plan.blue.point - plan.red.point);
 
+    plan.blue.spread =
+      sumof(
+        plan.blue.summoners.map(
+          (summoner) => (summoner.point - plan.blue.point / 5) ** 2,
+        ),
+      ) ** 0.5;
+    plan.red.spread =
+      sumof(
+        plan.red.summoners.map(
+          (summoner) => (summoner.point - plan.red.point / 5) ** 2,
+        ),
+      ) ** 0.5;
+
     plans.push(plan);
   }
 
   shuffleArray(plans);
 
+  // 合計ポイント差が少ない順
   plans.sort((a, b) => a.diffPoint - b.diffPoint);
 
   return plans;

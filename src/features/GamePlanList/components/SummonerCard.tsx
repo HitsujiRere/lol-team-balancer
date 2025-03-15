@@ -16,7 +16,7 @@ export const SummonerCard = React.memo(({ name }: SummonerCardProps) => {
 
   return (
     <div className="flex flex-col gap-2 rounded border border-base-content/30 bg-base-200 px-4 py-2">
-      <div className="pl-4">
+      <div>
         <span className="font-bold">{name}</span>
       </div>
 
