@@ -48,23 +48,33 @@ export const DebugActions = React.memo(() => {
   };
 
   return (
-    <div className="flex gap-2">
-      <button
-        type="button"
-        className="btn btn-accent"
-        onClick={handleAddRandomSummoners}
-      >
-        <Bug />
-        テスト: ランダムサモナー追加
-      </button>
-      <button
-        type="button"
-        className="btn btn-accent"
-        onClick={handleAddLowRateSummoners}
-      >
-        <Bug />
-        テスト: Unrank~Goldサモナー追加
-      </button>
+    <div>
+      <details className="dropdown">
+        <summary className="btn w-full">
+          <Bug className="h-4 w-4" />
+          デバッグ: サモナー追加
+        </summary>
+        <ul className="menu dropdown-content z-1 gap-2 backdrop-blur">
+          <li>
+            <button
+              type="button"
+              className="btn btn-accent"
+              onClick={handleAddRandomSummoners}
+            >
+              ランダム
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="btn btn-accent"
+              onClick={handleAddLowRateSummoners}
+            >
+              Unranked ~ Gold
+            </button>
+          </li>
+        </ul>
+      </details>
     </div>
   );
 });

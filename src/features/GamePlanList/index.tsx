@@ -38,6 +38,9 @@ export const GamePlanList = () => {
 
   const handleCopyPlan = () => {
     const plan = plans[selectPlanIndex];
+    if (plan === undefined) {
+      return;
+    }
     const blueNames = plan.blue.summoners
       .map((summoner) => summoner.name)
       .join("\n");
@@ -71,6 +74,7 @@ export const GamePlanList = () => {
           <button
             type="button"
             className="btn btn-soft"
+            disabled={plans.length === 0}
             onClick={handleCopyPlan}
           >
             <Copy className="h-4 w-4" />
