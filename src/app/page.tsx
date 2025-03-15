@@ -1,24 +1,18 @@
-"use client";
-
+import { DebugActions } from "/features/DebugActions";
 import { LobbyLogInput } from "/features/LobbyLogInput";
 import { SummonersTable } from "/features/SummonersTable";
 
 export default function Home() {
   return (
     <div className="m-8">
-      <header className="mb-4">
+      <header className="mb-4 flex justify-between">
         <h1 className="text-2xl">LoLチームバランサー</h1>
+        <DebugActions />
       </header>
 
-      <main className="gap-4 xl:flex">
+      <main className="flex gap-4 max-xl:flex-col">
         <div className="flex-1 space-y-4">
           <LobbyLogInput />
-
-          <div className="mb-2 flex items-center gap-2">
-            <button type="button" className="btn">
-              チーム分け
-            </button>
-          </div>
 
           <SummonersTable />
         </div>

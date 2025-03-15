@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtomValue } from "jotai/react";
 import { summonersReducerAtom } from "/stores/Summoner";
 import { ActionRow } from "./components/ActionRow";
@@ -15,7 +17,12 @@ export const SummonersTable = () => {
           <th>サモナー名</th>
           <th>ランク</th>
           <th className="text-center">OP.GG</th>
-          <th className="text-center">聞き専</th>
+          <th
+            className="tooltip tooltip-accent text-center"
+            data-tip="聞き専が分かれるようにチーム分けをします"
+          >
+            聞き専
+          </th>
           <th className="text-center">削除</th>
         </tr>
       </thead>

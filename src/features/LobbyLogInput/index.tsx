@@ -1,3 +1,5 @@
+"use client";
+
 import { Chat } from "@phosphor-icons/react";
 import { useSetAtom } from "jotai/react";
 import type React from "react";

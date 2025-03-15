@@ -10,7 +10,7 @@ export const ActionRow = () => {
   const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
   const [newName, setNewName] = useState("");
 
-  const handleNewNameSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAddNewName = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newName !== "") {
       updateSummoners({
@@ -40,7 +40,7 @@ export const ActionRow = () => {
         />
       </td>
       <td className="font-normal">
-        <form className="join" onSubmit={handleNewNameSubmit}>
+        <form className="join" onSubmit={handleAddNewName}>
           <label className="input join-item">
             <UserPlus className="h-4 w-4" />
             <input
@@ -61,7 +61,7 @@ export const ActionRow = () => {
       <td className="text-center">
         <button
           type="button"
-          className="btn btn-circle btn-ghost tooltip"
+          className="btn btn-circle btn-ghost tooltip tooltip-warning"
           data-tip="すべて削除"
           onClick={() => updateSummoners({ type: "removeAll" })}
         >

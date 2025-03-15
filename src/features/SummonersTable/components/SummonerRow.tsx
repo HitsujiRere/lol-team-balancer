@@ -12,6 +12,10 @@ type TableRowProps = { name: string; index: number };
 export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
   const [summoner, updateSummoner] = useAtom(summonerReducerFamily(name));
 
+  if (summoner === undefined) {
+    return undefined;
+  }
+
   return (
     <tr className={classNames({ "bg-base-200": summoner.isActive })}>
       <th>{index}</th>
