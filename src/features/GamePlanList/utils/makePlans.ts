@@ -3,7 +3,6 @@ import { type GamePlan, newGamePlan } from "../types/GamePlan";
 import { summonerAttributeFrom } from "../types/SummonerAttribute";
 import { calcAveragePoint } from "./calcAveragePoint";
 import { popcount } from "./popcount";
-import { shuffleArray } from "./shuffleArray";
 import { sumof } from "./sumof";
 
 export const makePlans = (summoners: Summoner[]): GamePlan[] => {
@@ -23,7 +22,7 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     const plan = newGamePlan({ id: bits });
 
     summonerAttributes.map((summoner, index) => {
-      if (bits & (1 << index)) {
+      if ((bits & (1 << index)) === 0) {
         plan.blue.summoners.push(summoner);
       } else {
         plan.red.summoners.push(summoner);
@@ -74,7 +73,7 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     plans.push(plan);
   }
 
-  shuffleArray(plans);
+  // shuffleArray(plans);
 
   // 合計ポイント差が少ない順
   plans.sort((a, b) => a.diffPoint - b.diffPoint);

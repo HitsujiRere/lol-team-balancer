@@ -5,12 +5,12 @@ export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
   const idToIndex = Object.fromEntries(
     plans.map((plan, index) => [plan.id, index]),
   );
-  // おすすめの候補
   const index1 = 0;
   const id1 = plans[index1].id;
   const farthestPlanIds = findFarthestPlanIds(id1).filter(
     (id) => idToIndex[id] !== undefined,
   );
+  // おすすめの候補
   const options = farthestPlanIds.flatMap((id2) => {
     const index2 = idToIndex[id2];
     return farthestPlanIds.flatMap((id3) => {
@@ -37,11 +37,12 @@ export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
   }).plans;
 };
 
-// xからの距離が3のプランyは，|1_x \cup 1_y|=2である
+// プラン x から最も遠いプランとの距離は 3 である
+// またプラン x,y に対して，xy 間の距離が 3 であるとき，またその時に限り |1_id_x \cup 1_id_y| = 2 を満たす
 const isFarthest = (sourceId: number, targetId: number): boolean =>
   popcount(sourceId & targetId) === 2;
 
-// 最も遠い（距離が3である）プランのIDを見つける
+// sourceIdから最も遠いプランのIDを見つける
 const findFarthestPlanIds = (sourceId: number): number[] => {
   const planIds: number[] = [];
   for (let targetId = 0; targetId < 1 << 10; targetId++) {

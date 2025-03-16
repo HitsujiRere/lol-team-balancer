@@ -20,5 +20,5 @@ export const toOpggAddressMulti = (
   if (names === "") {
     return undefined;
   }
-  return `https:www.op.gg/multisearch/jp?summoners=${encodeURIComponent(names)}`;
+  return `https://www.op.gg/multisearch/jp?summoners=${encodeURIComponent(names)}`;
 };
