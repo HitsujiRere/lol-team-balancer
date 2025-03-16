@@ -13,8 +13,10 @@ export const InfoModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
             <X className="h-4 w-4" />
           </button>
         </form>
-        <h2 className="mb-2 font-bold text-xl">LoLチームバランサー</h2>
-        <p>League of Legendsのカスタムゲームのチーム分けを行えます。</p>
+        <div className="space-y-2">
+          <h2 className="font-bold text-xl">LoLチームバランサー</h2>
+          <p>League of Legendsのカスタムゲームのチーム分けを行えます。</p>
+        </div>
       </div>
       <form method="dialog" className="modal-backdrop">
         <button type="submit">close</button>

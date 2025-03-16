@@ -1,10 +1,10 @@
 import { Link as LinkIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import type { Summoner } from "~/types/Summoner";
-import { toAddress } from "./utils/toAddress";
+import { toOpggAddressMulti } from "../utils/toOpggAddress";
 
-export const OpggLink = ({ summoner }: { summoner: Summoner }) => {
-  const address = toAddress(summoner);
+export const OpggLinkMany = ({ summoners }: { summoners: Summoner[] }) => {
+  const address = toOpggAddressMulti(summoners);
 
   if (address === undefined) {
     return undefined;

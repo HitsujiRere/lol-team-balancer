@@ -1,7 +1,7 @@
 import { X } from "@phosphor-icons/react";
 import { useAtom } from "jotai/react";
 import type { Ref } from "react";
-import { debugmodeAtom } from "~/stores/debugmode";
+import { debugmodeAtom } from "~/stores/debug/mode";
 
 export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
   const [debugmode, setDebugmode] = useAtom(debugmodeAtom);
@@ -17,16 +17,18 @@ export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
             <X className="h-4 w-4" />
           </button>
         </form>
-        <h2 className="mb-2 font-bold text-xl">設定</h2>
-        <label className="flex items-center gap-2">
-          <span>デバッグモード</span>
-          <input
-            type="checkbox"
-            className="toggle"
-            checked={debugmode}
-            onChange={(e) => setDebugmode(e.target.checked)}
-          />
-        </label>
+        <div className="space-y-2">
+          <h2 className="font-bold text-xl">設定</h2>
+          <label className="flex items-center gap-2">
+            <span>デバッグモード</span>
+            <input
+              type="checkbox"
+              className="toggle"
+              checked={debugmode}
+              onChange={(e) => setDebugmode(e.target.checked)}
+            />
+          </label>
+        </div>
       </div>
       <form method="dialog" className="modal-backdrop">
         <button type="submit">close</button>

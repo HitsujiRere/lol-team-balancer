@@ -2,6 +2,7 @@ import { Trash, UserPlus } from "@phosphor-icons/react";
 import { useAtom } from "jotai/react";
 import type React from "react";
 import { useState } from "react";
+import { OpggLinkMany } from "~/components/OpggLink";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { newSummoner } from "~/types/Summoner";
 import { trimControlChar } from "~/utils/string";
@@ -9,6 +10,10 @@ import { trimControlChar } from "~/utils/string";
 export const ActionRow = () => {
   const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
   const [newName, setNewName] = useState("");
+
+  const activeSummoners = Object.values(summoners).filter(
+    (summoner) => summoner.isActive,
+  );
 
   const handleAddNewName = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,9 +33,7 @@ export const ActionRow = () => {
         <input
           type="checkbox"
           className="checkbox"
-          checked={Object.values(summoners).some(
-            (summoner) => summoner.isActive,
-          )}
+          checked={activeSummoners.length > 0}
           onChange={(e) =>
             updateSummoners({
               type: "updateAll",
@@ -56,7 +59,11 @@ export const ActionRow = () => {
         </form>
       </td>
       <td />
-      <td />
+      <td>
+        <div className="tooltip" data-tip="マルチサーチを開く（10人まで）">
+          <OpggLinkMany summoners={activeSummoners} />
+        </div>
+      </td>
       <td />
       <td className="text-center">
         <button
