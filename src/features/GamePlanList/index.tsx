@@ -13,6 +13,7 @@ import { summonersReducerAtom } from "~/stores/Summoner";
 import { GameCards } from "./components/GameCards";
 import type { GamePlan } from "./types/GamePlan";
 import { makePlans } from "./utils/makePlans";
+import { recommendPlanIndexes } from "./utils/recommendPlanIndexes";
 
 export const GamePlanList = () => {
   const summoners = useAtomValue(summonersReducerAtom);
@@ -24,20 +25,32 @@ export const GamePlanList = () => {
   const [plans, setPlans] = useState<GamePlan[]>([]);
   const planCount = () => plans.length;
 
-  const [selectPlanIndex, setSelectPlanIndex] = useState(0);
+  const [selectedPlanIndex, selectPlanIndex] = useState(0);
   const incSelectPlanIndex = () =>
-    setSelectPlanIndex((prev) => (prev + 1) % planCount());
+    selectPlanIndex((prev) => (prev + 1) % planCount());
   const decSelectPlanIndex = () =>
-    setSelectPlanIndex((prev) => (prev + planCount() - 1) % planCount());
+    selectPlanIndex((prev) => (prev + planCount() - 1) % planCount());
+
+  const [recommnedPlans, setRecommendPlans] = useState<number[]>([]);
 
   const handleMakePlans = () => {
-    setPlans(makePlans(activeSummoners));
+    console.time();
+    const plans = makePlans(activeSummoners);
+    console.timeEnd();
 
-    setSelectPlanIndex(0);
+    setPlans(plans);
+
+    selectPlanIndex(0);
+
+    console.time();
+    const recommend = recommendPlanIndexes(plans);
+    console.timeEnd();
+    console.log(recommend.map((planindex) => plans[planindex].diffPoint));
+    setRecommendPlans(recommend);
   };
 
   const handleCopyPlan = () => {
-    const plan = plans[selectPlanIndex];
+    const plan = plans[selectedPlanIndex];
     if (plan === undefined) {
       return;
     }
@@ -63,7 +76,7 @@ export const GamePlanList = () => {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="btn btn-soft"
+            className="btn"
             disabled={activeSummoners.length !== 10}
             onClick={handleMakePlans}
           >
@@ -73,7 +86,7 @@ export const GamePlanList = () => {
 
           <button
             type="button"
-            className="btn btn-soft"
+            className="btn"
             disabled={plans.length === 0}
             onClick={handleCopyPlan}
           >
@@ -84,7 +97,7 @@ export const GamePlanList = () => {
 
         {plans.length > 0 && (
           <>
-            <div>
+            <div className="flex gap-2">
               <div className="join">
                 <button
                   type="button"
@@ -93,8 +106,8 @@ export const GamePlanList = () => {
                 >
                   <CaretLeft />
                 </button>
-                <button type="button" className="join-item btn">
-                  {selectPlanIndex + 1} / {planCount()}
+                <button type="button" className="join-item btn w-24">
+                  {selectedPlanIndex + 1} / {planCount()}
                 </button>
                 <button
                   type="button"
@@ -104,9 +117,22 @@ export const GamePlanList = () => {
                   <CaretRight />
                 </button>
               </div>
+
+              <div className="join">
+                {recommnedPlans.map((planindex, index) => (
+                  <button
+                    key={planindex}
+                    type="button"
+                    className="join-item btn"
+                    onClick={() => selectPlanIndex(planindex)}
+                  >
+                    おすすめ{index + 1}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <GameCards plan={plans[selectPlanIndex]} />
+            <GameCards plan={plans[selectedPlanIndex]} />
           </>
         )}
       </div>

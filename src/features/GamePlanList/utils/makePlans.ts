@@ -2,6 +2,7 @@ import type { Summoner } from "~/types/Summoner";
 import { type GamePlan, newGamePlan } from "../types/GamePlan";
 import { summonerAttributeFrom } from "../types/SummonerAttribute";
 import { calcAveragePoint } from "./calcAveragePoint";
+import { popcount } from "./popcount";
 import { shuffleArray } from "./shuffleArray";
 import { sumof } from "./sumof";
 
@@ -16,8 +17,10 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
 
   const plans: GamePlan[] = [];
 
-  for (let bits = 0; bits < 1 << summoners.length; bits++) {
-    const plan: GamePlan = newGamePlan();
+  for (let bits = 0; bits < 1 << 10; bits++) {
+    if (popcount(bits) !== 5) continue;
+
+    const plan = newGamePlan({ id: bits });
 
     summonerAttributes.map((summoner, index) => {
       if (bits & (1 << index)) {
@@ -50,6 +53,10 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
       plan.red.summoners.map((summoner) => summoner.point),
     );
     plan.diffPoint = Math.abs(plan.blue.point - plan.red.point);
+    // 平均ポイント差が4以上である
+    if (plan.diffPoint >= 20) {
+      continue;
+    }
 
     plan.blue.spread =
       sumof(
