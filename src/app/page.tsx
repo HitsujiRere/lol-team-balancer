@@ -10,7 +10,7 @@ export default function Home() {
         <Header />
       </header>
 
-      <main className="flex gap-4 max-xl:flex-col">
+      <main className="flex gap-4 max-xl:flex-col-reverse">
         <div className="flex-1 space-y-4">
           <LobbyLogInput />
 

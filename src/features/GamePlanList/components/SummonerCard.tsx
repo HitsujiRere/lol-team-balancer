@@ -21,12 +21,14 @@ export const SummonerCard = React.memo(({ name }: SummonerCardProps) => {
       </div>
 
       <div className="flex justify-between gap-2">
-        <TierSelect
-          tier={summoner.tier}
-          onChange={(tier) =>
-            updateSummoner({ type: "update", name, changes: { tier } })
-          }
-        />
+        <div className="flex">
+          <TierSelect
+            tier={summoner.tier}
+            onChange={(tier) =>
+              updateSummoner({ type: "update", name, changes: { tier } })
+            }
+          />
+        </div>
         <div>
           <OpggLink summoner={summoner} />
           <MuteCheckbox

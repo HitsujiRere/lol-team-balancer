@@ -45,7 +45,6 @@ export const GamePlanList = () => {
     console.time();
     const recommend = recommendPlanIndexes(plans);
     console.timeEnd();
-    console.log(recommend.map((planindex) => plans[planindex].diffPoint));
     setRecommendPlans(recommend);
   };
 
@@ -120,14 +119,14 @@ export const GamePlanList = () => {
 
               <div className="join">
                 {recommnedPlans.map((planindex, index) => (
-                  <button
+                  <input
                     key={planindex}
-                    type="button"
-                    className="join-item btn"
-                    onClick={() => selectPlanIndex(planindex)}
-                  >
-                    おすすめ{index + 1}
-                  </button>
+                    type="radio"
+                    className="join-item btn checked:outline-0!"
+                    aria-label={`おすすめ ${index + 1}`}
+                    checked={planindex === selectedPlanIndex}
+                    onChange={() => selectPlanIndex(planindex)}
+                  />
                 ))}
               </div>
             </div>

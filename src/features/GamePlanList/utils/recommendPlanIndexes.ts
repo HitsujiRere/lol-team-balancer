@@ -3,39 +3,42 @@ import { popcount } from "./popcount";
 
 export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
   const idToIndex = Object.fromEntries(
-    plans.map((plan, index) => [plan.id, index]),
+    plans
+      .filter((plan) => plan.diffPoint <= 8)
+      .map((plan, index) => [plan.id, index]),
   );
-  const options2 = plans.flatMap((plan1, index1) =>
-    findPlanIdsAtDistance3([plan1.id])
-      .filter((id2) => idToIndex[id2] !== undefined)
-      .map((id2) => [index1, idToIndex[id2]])
-      .filter(([index1, index2]) => index1 < index2),
-  );
-  const options3 = options2.flatMap(([index1, index2]) =>
-    findPlanIdsAtDistance3([plans[index1].id, plans[index2].id])
-      .filter((id3) => idToIndex[id3] !== undefined)
-      .map((id3) => [index1, index2, idToIndex[id3]])
-      .filter(([_index1, index2, index3]) => index2 < index3),
-  );
-  if (options3.length === 0) {
+  // おすすめの候補
+  const index1 = 0;
+  const id1 = plans[index1].id;
+  const options = findPlanIdsAtDistance3([plans[index1].id]).flatMap((id2) => {
+    const index2 = idToIndex[id2];
+    if (index2 === undefined || index2 < index1) return [];
+    return findPlanIdsAtDistance3([id1, id2]).flatMap((id3) => {
+      const index3 = idToIndex[id3];
+      if (index3 === undefined && index3 < index2) return [];
+      return [
+        {
+          plans: [index1, index2, index3],
+          diffPoint: Math.max(
+            ...[index1, index2, index3].map((index) => plans[index].diffPoint),
+          ),
+        },
+      ];
+    });
+  });
+  if (options.length === 0) {
     return [];
   }
-  // 最も最大ポイント差が小さいものを選ぶ
-  return options3
-    .map((planindexes) => ({
-      diffPoint: Math.max(
-        ...planindexes.map((index) => plans[index].diffPoint),
-      ),
-      plan: planindexes,
-    }))
-    .reduce((min, cur) => {
-      return cur.diffPoint < min.diffPoint ? cur : min;
-    }).plan;
+  // 最大ポイント差が最も小さいものを選ぶ
+  return options.reduce((min, cur) => {
+    return cur.diffPoint < min.diffPoint ? cur : min;
+  }).plans;
 };
 
 const findPlanIdsAtDistance3 = (sourceIds: number[]): number[] => {
   const planIds: number[] = [];
   for (let targetId = 0; targetId < 1 << 10; targetId++) {
+    // xからの距離が3のプランyは，|1_x \cup 1_y|=2である
     if (
       popcount(targetId) === 5 &&
       sourceIds.every((sourceId) => popcount(sourceId & targetId) === 2)
