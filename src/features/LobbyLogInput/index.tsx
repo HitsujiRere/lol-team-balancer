@@ -14,7 +14,6 @@ export const LobbyLogInput = () => {
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const messages = trimControlChar(event.target.value, "\\n");
     const names = parseMessagesToNames(messages);
-    console.log(names);
     const summoners = names.map((name) => newSummoner({ name }));
     updateSummoners({ type: "addMany", summoners });
   };

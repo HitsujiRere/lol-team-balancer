@@ -50,7 +50,7 @@ export const ActionRow = () => {
               onChange={(e) => setNewName(trimControlChar(e.target.value))}
             />
           </label>
-          <button type="button" className="btn join-item">
+          <button type="submit" className="btn join-item">
             追加
           </button>
         </form>
