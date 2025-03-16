@@ -34,17 +34,12 @@ export const GamePlanList = () => {
   const [recommnedPlans, setRecommendPlans] = useState<number[]>([]);
 
   const handleMakePlans = () => {
-    console.time();
     const plans = makePlans(activeSummoners);
-    console.timeEnd();
-
     setPlans(plans);
 
     selectPlanIndex(0);
 
-    console.time();
     const recommend = recommendPlanIndexes(plans);
-    console.timeEnd();
     setRecommendPlans(recommend);
   };
 
@@ -98,6 +93,13 @@ export const GamePlanList = () => {
           <>
             <div className="flex gap-2">
               <div className="join">
+                <button
+                  type="button"
+                  className="join-item btn"
+                  onClick={decSelectPlanIndex}
+                >
+                  1
+                </button>
                 <button
                   type="button"
                   className="join-item btn"

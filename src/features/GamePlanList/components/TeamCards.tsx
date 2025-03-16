@@ -16,7 +16,11 @@ export const TeamCards = ({ teamname, plan }: TeamCardsProps) => {
         </div>
       </div>
       {plan.summoners.map((summoner) => (
-        <SummonerCard key={summoner.name} name={summoner.name} />
+        <SummonerCard
+          key={summoner.name}
+          name={summoner.name}
+          point={summoner.point}
+        />
       ))}
     </div>
   );

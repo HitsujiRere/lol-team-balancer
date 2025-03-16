@@ -53,8 +53,8 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
       plan.red.summoners.map((summoner) => summoner.point),
     );
     plan.diffPoint = Math.abs(plan.blue.point - plan.red.point);
-    // 平均ポイント差が4以下であること
-    if (plan.diffPoint >= 20) {
+    // 平均ポイント差が2以下であること
+    if (plan.diffPoint > 10) {
       continue;
     }
 
