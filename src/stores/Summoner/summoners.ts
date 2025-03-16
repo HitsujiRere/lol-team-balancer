@@ -1,4 +1,5 @@
 import { atomWithReducer } from "jotai/utils";
+import { toast } from "react-toastify";
 import type { Summoner } from "~/types/Summoner";
 
 export type SummonersAtomAction =
@@ -30,6 +31,8 @@ export const summonersReducerAtom = atomWithReducer(
       );
     }
     if (action.type === "add") {
+      toast.success(`サモナー ${action.summoner.name} を追加しました。`);
+
       return {
         ...prev,
         [action.summoner.name]: {
@@ -39,6 +42,10 @@ export const summonersReducerAtom = atomWithReducer(
       };
     }
     if (action.type === "addMany") {
+      if (action.summoners.length === 0) return prev;
+
+      toast.success("サモナーを追加しました。");
+
       return {
         ...prev,
         ...toSummonerRecord(
@@ -50,6 +57,8 @@ export const summonersReducerAtom = atomWithReducer(
       };
     }
     if (action.type === "remove") {
+      toast.success(`サモナー ${action.name} を削除しました。`);
+
       return Object.fromEntries(
         Object.values(prev)
           .filter((summoner) => summoner.name !== action.name)

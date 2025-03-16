@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { useAtomValue } from "jotai/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { GameCards } from "./components/GameCards";
 import type { GamePlan } from "./types/GamePlan";
@@ -41,6 +42,8 @@ export const GamePlanList = () => {
 
     const recommend = recommendPlanIndexes(plans);
     setRecommendPlans(recommend);
+
+    toast.success("チーム分けをしました。");
   };
 
   const handleCopyPlan = () => {
@@ -57,6 +60,8 @@ export const GamePlanList = () => {
     navigator.clipboard.writeText(
       `--- チーム1 ---\n${blueNames}\n--- チーム2 ---\n${redNames}`,
     );
+
+    toast.success("結果をコピーしました。");
   };
 
   return (

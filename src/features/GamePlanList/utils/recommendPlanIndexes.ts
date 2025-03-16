@@ -3,9 +3,7 @@ import { popcount } from "./popcount";
 
 export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
   const idToIndex = Object.fromEntries(
-    plans
-      .filter((plan) => plan.diffPoint <= 8)
-      .map((plan, index) => [plan.id, index]),
+    plans.map((plan, index) => [plan.id, index]),
   );
   // おすすめの候補
   const index1 = 0;
@@ -17,7 +15,7 @@ export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
     const index2 = idToIndex[id2];
     return farthestPlanIds.flatMap((id3) => {
       const index3 = idToIndex[id3];
-      if (index3 <= index2 || !isFarthest(index2, index3)) {
+      if (index3 <= index2 || !isFarthest(id2, id3)) {
         return [];
       }
       return [

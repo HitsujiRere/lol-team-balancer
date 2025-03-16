@@ -37,7 +37,7 @@ export const SummonerCard = React.memo(({ name, point }: SummonerCardProps) => {
               className="btn btn-warning btn-circle btn-sm tooltip"
               data-tip="ランクがUnrankedのとき、平均値に設定されます。"
             >
-              <Warning className="h-4 w-4" />
+              <Warning className="h-4 w-4" weight="bold" />
             </button>
           )}
         </div>
