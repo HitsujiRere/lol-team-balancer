@@ -3,9 +3,11 @@
 import { Bug } from "@phosphor-icons/react";
 import { useSetAtom } from "jotai/react";
 import React from "react";
+import { tierToPoint } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { newSummoner } from "~/types/Summoner";
-import { TierList } from "~/types/Tier";
+import { type Tier, TierList } from "~/types/Tier";
+import { choice } from "../utils/choise";
 
 const debugSummoners = [
   "りんご",
@@ -23,27 +25,22 @@ const debugSummoners = [
 export const DebugActions = React.memo(() => {
   const updateSummoners = useSetAtom(summonersReducerAtom);
 
-  const handleAddRandomSummoners = () => {
+  const handleAddRandomSummoners = (
+    first: Tier = "Unranked",
+    last: Tier = "Challenger",
+  ) => {
+    const firstIndex = TierList.indexOf(first);
+    const lastIndex = TierList.indexOf(last);
     updateSummoners({
       type: "addMany",
-      summoners: debugSummoners.map((name) =>
-        newSummoner({
+      summoners: debugSummoners.map((name) => {
+        const tier = choice(TierList.slice(firstIndex, lastIndex + 1));
+        return newSummoner({
           name: `${name} #JP0`,
-          tier: TierList[Math.floor(Math.random() * TierList.length)],
-        }),
-      ),
-    });
-  };
-
-  const handleAddLowRateSummoners = () => {
-    updateSummoners({
-      type: "addMany",
-      summoners: debugSummoners.map((name) =>
-        newSummoner({
-          name: `${name} #JP0`,
-          tier: TierList[Math.floor(Math.random() * 17)],
-        }),
-      ),
+          tier,
+          point: tierToPoint(tier),
+        });
+      }),
     });
   };
 
@@ -59,7 +56,16 @@ export const DebugActions = React.memo(() => {
             <button
               type="button"
               className="btn btn-accent"
-              onClick={handleAddRandomSummoners}
+              onClick={() => handleAddRandomSummoners("Unranked", "Unranked")}
+            >
+              Unranked
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="btn btn-accent"
+              onClick={() => handleAddRandomSummoners()}
             >
               ランダム
             </button>
@@ -68,7 +74,7 @@ export const DebugActions = React.memo(() => {
             <button
               type="button"
               className="btn btn-accent"
-              onClick={handleAddLowRateSummoners}
+              onClick={() => handleAddRandomSummoners("Unranked", "Gold 1")}
             >
               Unranked ~ Gold
             </button>

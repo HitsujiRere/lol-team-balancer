@@ -7,17 +7,19 @@ import {
   Flag,
   Users,
 } from "@phosphor-icons/react";
-import { useAtomValue } from "jotai/react";
+import classNames from "classnames";
+import { useAtom } from "jotai/react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { GameCards } from "./components/GameCards";
 import type { GamePlan } from "./types/GamePlan";
 import { makePlans } from "./utils/makePlans";
+import { calcAveragePoint } from "./utils/point";
 import { recommendPlanIndexes } from "./utils/recommendPlanIndexes";
 
 export const GamePlanList = () => {
-  const summoners = useAtomValue(summonersReducerAtom);
+  const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
 
   const activeSummoners = Object.values(summoners).filter(
     (summoner) => summoner.isActive,
@@ -35,7 +37,25 @@ export const GamePlanList = () => {
   const [recommnedPlans, setRecommendPlans] = useState<number[]>([]);
 
   const handleMakePlans = () => {
-    const plans = makePlans(activeSummoners);
+    const averagePoint = calcAveragePoint(
+      activeSummoners.filter((summoner) => summoner.tier !== "Unranked"),
+    );
+    updateSummoners({
+      type: "updateMany",
+      names: activeSummoners
+        .filter((summoner) => summoner.tier === "Unranked")
+        .map((summoner) => summoner.name),
+      changes: { point: averagePoint },
+    });
+
+    const plans = makePlans(
+      activeSummoners.map((summoner) => {
+        if (summoner.tier === "Unranked") {
+          return { ...summoner, point: averagePoint };
+        }
+        return summoner;
+      }),
+    );
     setPlans(plans);
 
     selectPlanIndex(0);
@@ -103,13 +123,6 @@ export const GamePlanList = () => {
                   className="join-item btn"
                   onClick={decSelectPlanIndex}
                 >
-                  1
-                </button>
-                <button
-                  type="button"
-                  className="join-item btn"
-                  onClick={decSelectPlanIndex}
-                >
                   <CaretLeft />
                 </button>
                 <button type="button" className="join-item btn w-24">
@@ -126,14 +139,16 @@ export const GamePlanList = () => {
 
               <div className="join">
                 {recommnedPlans.map((planindex, index) => (
-                  <input
+                  <button
                     key={planindex}
-                    type="radio"
-                    className="join-item btn checked:outline-0!"
-                    aria-label={`おすすめ ${index + 1}`}
-                    checked={planindex === selectedPlanIndex}
-                    onChange={() => selectPlanIndex(planindex)}
-                  />
+                    type="button"
+                    className={classNames("join-item btn", {
+                      "btn-active": planindex === selectedPlanIndex,
+                    })}
+                    onClick={() => selectPlanIndex(planindex)}
+                  >
+                    おすすめ {index + 1}
+                  </button>
                 ))}
               </div>
             </div>

@@ -4,6 +4,11 @@ import type { Summoner } from "~/types/Summoner";
 
 export type SummonersAtomAction =
   | { type: "update"; name: string; changes: Partial<Omit<Summoner, "name">> }
+  | {
+      type: "updateMany";
+      names: string[];
+      changes: Partial<Omit<Summoner, "name">>;
+    }
   | { type: "updateAll"; changes: Partial<Omit<Summoner, "name">> }
   | { type: "add"; summoner: Summoner }
   | { type: "addMany"; summoners: Summoner[] }
@@ -20,6 +25,17 @@ export const summonersReducerAtom = atomWithReducer(
       return {
         ...prev,
         [action.name]: { ...prev[action.name], ...action.changes },
+      };
+    }
+    if (action.type === "updateMany") {
+      return {
+        ...prev,
+        ...toSummonerRecord(
+          action.names.map((name) => ({
+            ...prev[name],
+            ...action.changes,
+          })),
+        ),
       };
     }
     if (action.type === "updateAll") {

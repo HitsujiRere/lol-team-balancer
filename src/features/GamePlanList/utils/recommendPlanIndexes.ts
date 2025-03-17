@@ -29,7 +29,7 @@ export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
     });
   });
   if (options.length === 0) {
-    return [];
+    return [index1];
   }
   // 最大ポイント差が最も小さいものを選ぶ
   return options.reduce((min, cur) => {

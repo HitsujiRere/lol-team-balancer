@@ -1,7 +1,6 @@
 import type { Summoner } from "~/types/Summoner";
 import { type GamePlan, newGamePlan } from "../types/GamePlan";
-import { summonerAttributeFrom } from "../types/SummonerAttribute";
-import { calcAveragePoint } from "./calcAveragePoint";
+import { calcSpreadPoint, calcSumPoint } from "./point";
 import { popcount } from "./popcount";
 import { sumof } from "./sumof";
 
@@ -10,10 +9,6 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     throw new Error("The number of summoners must be exactly 10.");
   }
 
-  const summonerAttributes = summoners.map((summoner) =>
-    summonerAttributeFrom(summoner, calcAveragePoint(summoners)),
-  );
-
   const plans: GamePlan[] = [];
 
   for (let bits = 0; bits < 1 << 10; bits++) {
@@ -21,8 +16,8 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
 
     const plan = newGamePlan({ id: bits });
 
-    summonerAttributes.map((summoner, index) => {
-      if ((bits & (1 << index)) === 0) {
+    summoners.map((summoner, index) => {
+      if (bits & (1 << index)) {
         plan.blue.summoners.push(summoner);
       } else {
         plan.red.summoners.push(summoner);
@@ -45,30 +40,17 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
       continue;
     }
 
-    plan.blue.point = sumof(
-      plan.blue.summoners.map((summoner) => summoner.point),
-    );
-    plan.red.point = sumof(
-      plan.red.summoners.map((summoner) => summoner.point),
-    );
+    plan.blue.point = calcSumPoint(plan.blue.summoners);
+    plan.red.point = calcSumPoint(plan.red.summoners);
     plan.diffPoint = Math.abs(plan.blue.point - plan.red.point);
     // 平均ポイント差が2以下であること
     if (plan.diffPoint > 10) {
       continue;
     }
 
-    plan.blue.spread =
-      sumof(
-        plan.blue.summoners.map(
-          (summoner) => (summoner.point - plan.blue.point / 5) ** 2,
-        ),
-      ) ** 0.5;
-    plan.red.spread =
-      sumof(
-        plan.red.summoners.map(
-          (summoner) => (summoner.point - plan.red.point / 5) ** 2,
-        ),
-      ) ** 0.5;
+    plan.blue.spread = calcSpreadPoint(plan.blue.summoners);
+    plan.blue.spread = calcSpreadPoint(plan.blue.summoners);
+    plan.diffSpread = Math.abs(plan.blue.spread - plan.red.spread);
 
     plans.push(plan);
   }

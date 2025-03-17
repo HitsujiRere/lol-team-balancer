@@ -9,7 +9,7 @@ export const SummonersTable = () => {
   const summoners = useAtomValue(summonersReducerAtom);
 
   return (
-    <table className="table">
+    <table className="table-sm table">
       <thead>
         <tr>
           <th />

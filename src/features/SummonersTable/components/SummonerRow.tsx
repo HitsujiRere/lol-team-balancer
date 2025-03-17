@@ -34,13 +34,14 @@ export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
         />
       </td>
       <td>
-        <span className="select-all">{summoner.name}</span>
+        <span className="select-all text-sm">{summoner.name}</span>
       </td>
       <td>
         <TierSelect
           tier={summoner.tier}
-          onChange={(tier) =>
-            updateSummoner({ type: "update", name, changes: { tier } })
+          point={summoner.point}
+          onChange={(tier, point) =>
+            updateSummoner({ type: "update", name, changes: { tier, point } })
           }
         />
       </td>

@@ -4,6 +4,7 @@ export type Summoner = {
   name: string;
   isActive: boolean;
   tier: Tier;
+  point: number;
   isMute: boolean;
 };
 
@@ -12,6 +13,7 @@ export const newSummoner = (init?: Partial<Summoner>): Summoner => {
     name: "",
     isActive: true,
     tier: "Unranked",
+    point: 0,
     isMute: false,
     ...init,
   };

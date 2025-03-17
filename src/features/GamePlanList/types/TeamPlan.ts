@@ -1,7 +1,7 @@
-import type { SummonerAttribute } from "./SummonerAttribute";
+import type { Summoner } from "~/types/Summoner";
 
 export type TeamPlan = {
-  summoners: SummonerAttribute[];
+  summoners: Summoner[];
   point: number;
   spread: number;
 };
