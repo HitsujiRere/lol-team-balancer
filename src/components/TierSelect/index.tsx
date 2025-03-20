@@ -14,18 +14,18 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
     <div className="join">
       <select
         className={classNames("select join-item w-32", {
-          "bg-base-100": tier === "Unranked",
-          "bg-lol-iron": tier.includes("Iron"),
-          "bg-lol-bronze": tier.includes("Bronze"),
-          "bg-lol-silver": tier.includes("Silver"),
-          "bg-lol-gold": tier.includes("Gold"),
-          "bg-lol-platinum": tier.includes("Platinum"),
-          "bg-lol-emerald": tier.includes("Emerald"),
-          "bg-lol-diamond": tier.includes("Diamond"),
+          "bg-base-100": tier === "UNRANKED",
+          "bg-lol-iron": tier.includes("IRON"),
+          "bg-lol-bronze": tier.includes("BRONZE"),
+          "bg-lol-silver": tier.includes("SILVER"),
+          "bg-lol-gold": tier.includes("GOLD"),
+          "bg-lol-platinum": tier.includes("PLATINUM"),
+          "bg-lol-emerald": tier.includes("EMERALD"),
+          "bg-lol-diamond": tier.includes("DIAMOND"),
           "bg-lol-master":
-            tier === "Master" ||
-            tier === "Grandmaster" ||
-            tier === "Challenger",
+            tier === "MASTER" ||
+            tier === "GRANDMASTER" ||
+            tier === "CHALLENGER",
         })}
         value={tier}
         onChange={(e) => {
@@ -39,18 +39,18 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
             key={tier}
             value={tier}
             className={classNames({
-              "bg-base-100": tier === "Unranked",
-              "bg-lol-iron": tier.includes("Iron"),
-              "bg-lol-bronze": tier.includes("Bronze"),
-              "bg-lol-silver": tier.includes("Silver"),
-              "bg-lol-gold": tier.includes("Gold"),
-              "bg-lol-platinum": tier.includes("Platinum"),
-              "bg-lol-emerald": tier.includes("Emerald"),
-              "bg-lol-diamond": tier.includes("Diamond"),
+              "bg-base-100": tier === "UNRANKED",
+              "bg-lol-iron": tier.includes("IRON"),
+              "bg-lol-bronze": tier.includes("BRONZE"),
+              "bg-lol-silver": tier.includes("SILVER"),
+              "bg-lol-gold": tier.includes("GOLD"),
+              "bg-lol-platinum": tier.includes("PLATINUM"),
+              "bg-lol-emerald": tier.includes("EMERALD"),
+              "bg-lol-diamond": tier.includes("DIAMOND"),
               "bg-lol-master":
-                tier === "Master" ||
-                tier === "Grandmaster" ||
-                tier === "Challenger",
+                tier === "MASTER" ||
+                tier === "GRANDMASTER" ||
+                tier === "CHALLENGER",
             })}
           >
             {tier}
@@ -60,14 +60,14 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
       <label
         className={classNames("join-item input ", {
           "input-warning tooltip tooltip-warning bg-warning/10":
-            tier === "Unranked",
+            tier === "UNRANKED",
         })}
-        data-tip="ランクが Unranked のサモナーは、チーム分けの際にポイントが平均値に設定されます。"
+        data-tip="ランクが UNRANKED のサモナーは、チーム分けの際にポイントが平均値に設定されます。"
       >
         <input
           type="number"
           className="w-8 appearance-none text-end"
-          readOnly={tier === "Unranked"}
+          readOnly={tier === "UNRANKED"}
           value={point}
           onChange={(e) => onChange(tier, e.target.valueAsNumber)}
         />

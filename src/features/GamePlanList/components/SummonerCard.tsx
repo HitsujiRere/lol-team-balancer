@@ -10,35 +10,39 @@ type SummonerCardProps = { name: string };
 export const SummonerCard = React.memo(({ name }: SummonerCardProps) => {
   const [summoner, updateSummoner] = useAtom(summonerReducerFamily(name));
 
-  if (summoner === undefined) {
-    return undefined;
-  }
-
   return (
-    <div className="flex flex-col gap-2 rounded border border-base-content/30 bg-base-200 px-4 py-2">
-      <div>
+    <div className="rounded border border-base-content/30 bg-base-200 px-4 py-2">
+      <div className="flex flex-col gap-2">
         <span className="font-bold">{name}</span>
-      </div>
 
-      <div className="flex justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <TierSelect
-            tier={summoner.tier}
-            point={summoner.point}
-            onChange={(tier, point) =>
-              updateSummoner({ type: "update", name, changes: { tier, point } })
-            }
-          />
-        </div>
-        <div>
-          <OpggLink summoner={summoner} />
-          <MuteCheckbox
-            isMute={summoner.isMute}
-            onChange={(isMute) =>
-              updateSummoner({ type: "update", name, changes: { isMute } })
-            }
-          />
-        </div>
+        {summoner && (
+          <div className="flex flex-wrap justify-end gap-1">
+            <TierSelect
+              tier={summoner.tier}
+              point={summoner.point}
+              onChange={(tier, point) =>
+                updateSummoner({
+                  type: "update",
+                  name,
+                  changes: { tier, point },
+                })
+              }
+            />
+            <div className="flex gap-1">
+              <OpggLink summoner={summoner} />
+              <MuteCheckbox
+                isMute={summoner.isMute}
+                onChange={(isMute) =>
+                  updateSummoner({
+                    type: "update",
+                    name,
+                    changes: { isMute },
+                  })
+                }
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

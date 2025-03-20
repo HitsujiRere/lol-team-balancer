@@ -54,6 +54,7 @@ export const summonersReducerAtom = atomWithReducer(
         [action.summoner.name]: {
           ...action.summoner,
           ...prev[action.summoner.name],
+          isActive: action.summoner.isActive,
         },
       };
     }
@@ -68,6 +69,7 @@ export const summonersReducerAtom = atomWithReducer(
           action.summoners.map((summoner) => ({
             ...summoner,
             ...prev[summoner.name],
+            isActive: summoner.isActive,
           })),
         ),
       };

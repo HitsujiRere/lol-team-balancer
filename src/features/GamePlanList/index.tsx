@@ -4,6 +4,7 @@ import {
   CaretLeft,
   CaretRight,
   Copy,
+  DiceFive,
   Flag,
   Users,
 } from "@phosphor-icons/react";
@@ -13,7 +14,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { GameCards } from "./components/GameCards";
-import type { GamePlan } from "./types/GamePlan";
+import { type GameNames, newGameNamesFromPlan } from "./types/GameNames";
 import { makePlans } from "./utils/makePlans";
 import { calcAveragePoint } from "./utils/point";
 import { recommendPlanIndexes } from "./utils/recommendPlanIndexes";
@@ -25,7 +26,7 @@ export const GamePlanList = () => {
     (summoner) => summoner.isActive,
   );
 
-  const [plans, setPlans] = useState<GamePlan[]>([]);
+  const [plans, setPlans] = useState<GameNames[]>([]);
   const planCount = () => plans.length;
 
   const [selectedPlanIndex, selectPlanIndex] = useState(0);
@@ -38,25 +39,25 @@ export const GamePlanList = () => {
 
   const handleMakePlans = () => {
     const averagePoint = calcAveragePoint(
-      activeSummoners.filter((summoner) => summoner.tier !== "Unranked"),
+      activeSummoners.filter((summoner) => summoner.tier !== "UNRANKED"),
     );
     updateSummoners({
       type: "updateMany",
       names: activeSummoners
-        .filter((summoner) => summoner.tier === "Unranked")
+        .filter((summoner) => summoner.tier === "UNRANKED")
         .map((summoner) => summoner.name),
       changes: { point: averagePoint },
     });
 
     const plans = makePlans(
       activeSummoners.map((summoner) => {
-        if (summoner.tier === "Unranked") {
+        if (summoner.tier === "UNRANKED") {
           return { ...summoner, point: averagePoint };
         }
         return summoner;
       }),
     );
-    setPlans(plans);
+    setPlans(plans.map((plan) => newGameNamesFromPlan(plan)));
 
     selectPlanIndex(0);
 
@@ -71,12 +72,8 @@ export const GamePlanList = () => {
     if (plan === undefined) {
       return;
     }
-    const blueNames = plan.blue.summoners
-      .map((summoner) => summoner.name)
-      .join("\n");
-    const redNames = plan.red.summoners
-      .map((summoner) => summoner.name)
-      .join("\n");
+    const blueNames = plan.blue.map((name) => name).join("\n");
+    const redNames = plan.red.map((name) => name).join("\n");
     navigator.clipboard.writeText(
       `--- チーム1 ---\n${blueNames}\n--- チーム2 ---\n${redNames}`,
     );
@@ -116,7 +113,35 @@ export const GamePlanList = () => {
 
         {plans.length > 0 && (
           <>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-between gap-2">
+              <div className="flex gap-2">
+                <div className="join">
+                  {recommnedPlans.map((planindex, index) => (
+                    <button
+                      key={planindex}
+                      type="button"
+                      className={classNames("join-item btn", {
+                        "btn-active": planindex === selectedPlanIndex,
+                      })}
+                      onClick={() => selectPlanIndex(planindex)}
+                    >
+                      おすすめ {index + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() =>
+                    selectPlanIndex(Math.floor(Math.random() * plans.length))
+                  }
+                >
+                  <DiceFive className="h-4 w-4" />
+                  ランダム
+                </button>
+              </div>
+
               <div className="join">
                 <button
                   type="button"
@@ -125,9 +150,9 @@ export const GamePlanList = () => {
                 >
                   <CaretLeft />
                 </button>
-                <button type="button" className="join-item btn w-24">
+                <div className="join-item btn">
                   {selectedPlanIndex + 1} / {planCount()}
-                </button>
+                </div>
                 <button
                   type="button"
                   className="join-item btn"
@@ -136,24 +161,9 @@ export const GamePlanList = () => {
                   <CaretRight />
                 </button>
               </div>
-
-              <div className="join">
-                {recommnedPlans.map((planindex, index) => (
-                  <button
-                    key={planindex}
-                    type="button"
-                    className={classNames("join-item btn", {
-                      "btn-active": planindex === selectedPlanIndex,
-                    })}
-                    onClick={() => selectPlanIndex(planindex)}
-                  >
-                    おすすめ {index + 1}
-                  </button>
-                ))}
-              </div>
             </div>
 
-            <GameCards plan={plans[selectedPlanIndex]} />
+            <GameCards names={plans[selectedPlanIndex]} />
           </>
         )}
       </div>

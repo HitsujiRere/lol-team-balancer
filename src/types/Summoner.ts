@@ -12,7 +12,7 @@ export const newSummoner = (init?: Partial<Summoner>): Summoner => {
   return {
     name: "",
     isActive: true,
-    tier: "Unranked",
+    tier: "UNRANKED",
     point: 0,
     isMute: false,
     ...init,

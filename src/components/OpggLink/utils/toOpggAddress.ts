@@ -1,7 +1,8 @@
 import type { Summoner } from "~/types/Summoner";
+import { isRiotId } from "~/utils/summoner";
 
 export const toOpggAddress = (summoner: Summoner): string | undefined => {
-  if (!/^.+ ?#.+$/.test(summoner.name)) {
+  if (!isRiotId(summoner.name)) {
     return undefined;
   }
 
@@ -12,7 +13,7 @@ export const toOpggAddressMulti = (
   summoners: Summoner[],
 ): string | undefined => {
   const names = summoners
-    .filter((summoner) => /^.+ ?#.+$/.test(summoner.name))
+    .filter((summoner) => isRiotId(summoner.name))
     .map((summoner) => summoner.name)
     // Opggマルチサーチは10人まで
     .slice(0, 10)

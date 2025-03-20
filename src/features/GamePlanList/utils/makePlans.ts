@@ -2,6 +2,7 @@ import type { Summoner } from "~/types/Summoner";
 import { type GamePlan, newGamePlan } from "../types/GamePlan";
 import { calcSpreadPoint, calcSumPoint } from "./point";
 import { popcount } from "./popcount";
+import { shuffleArray } from "./shuffleArray";
 import { sumof } from "./sumof";
 
 export const makePlans = (summoners: Summoner[]): GamePlan[] => {
@@ -55,10 +56,14 @@ export const makePlans = (summoners: Summoner[]): GamePlan[] => {
     plans.push(plan);
   }
 
-  // shuffleArray(plans);
+  shuffleArray(plans);
 
   // 合計ポイント差が少ない順
   plans.sort((a, b) => a.diffPoint - b.diffPoint);
 
-  return plans;
+  // 最大でも50くらいまで
+  return plans.slice(
+    0,
+    plans.findLastIndex((plan) => plan.diffPoint <= plans[50]?.diffPoint),
+  );
 };
