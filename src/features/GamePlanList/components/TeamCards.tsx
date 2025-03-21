@@ -1,3 +1,4 @@
+import { SortableContext } from "@dnd-kit/sortable";
 import { useAtomValue } from "jotai/react";
 import { pointToTier } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
@@ -17,19 +18,21 @@ export const TeamCards = ({ teamname, names }: TeamCardsProps) => {
   const averageTier = pointToTier(averagePoint);
 
   return (
-    <div className="space-y-4">
-      <div className="m-4 flex justify-around">
-        <span className="text-lg">チーム{teamname}</span>
+    <SortableContext id={teamname} items={names}>
+      <div className="space-y-4">
+        <div className="m-4 flex justify-around">
+          <span className="text-lg">チーム{teamname}</span>
 
-        <div className="flex flex-col gap-2">
-          <span>平均ポイント : {averagePoint}pt</span>
-          <span>平均ランク : {averageTier}</span>
+          <div className="flex flex-col gap-2">
+            <span>平均ポイント : {averagePoint}pt</span>
+            <span>平均ランク : {averageTier}</span>
+          </div>
         </div>
-      </div>
 
-      {names.map((name) => (
-        <SummonerCard key={name} name={name} />
-      ))}
-    </div>
+        {names.map((name) => (
+          <SummonerCard key={name} name={name} />
+        ))}
+      </div>
+    </SortableContext>
   );
 };
