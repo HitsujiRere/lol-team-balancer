@@ -1,6 +1,6 @@
 import { SortableContext } from "@dnd-kit/sortable";
 import { useAtomValue } from "jotai/react";
-import { pointToTier } from "~/components/TierSelect";
+import { pointToTier, tierContext } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { calcAveragePoint } from "../utils/point";
 import { SummonerCard } from "./SummonerCard";
@@ -25,7 +25,7 @@ export const TeamCards = ({ teamname, names }: TeamCardsProps) => {
 
           <div className="flex flex-col gap-2">
             <span>平均ポイント : {averagePoint}pt</span>
-            <span>平均ランク : {averageTier}</span>
+            <span>平均ランク : {tierContext(averageTier)}</span>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { type Tier, TierList } from "~/types/Tier";
 import { pointToTier } from "./utils/pointToTier";
+import { tierContext } from "./utils/tierContext";
 import { tierToPoint } from "./utils/tierToPoint";
 
 type TierSelectProps = {
@@ -53,7 +54,7 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
                 tier === "CHALLENGER",
             })}
           >
-            {tier}
+            {tierContext(tier)}
           </option>
         ))}
       </select>
@@ -62,7 +63,7 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
           "input-warning tooltip tooltip-warning bg-warning/10":
             tier === "UNRANKED",
         })}
-        data-tip="ランクが UNRANKED のサモナーは、チーム分けの際にポイントが平均値に設定されます。"
+        data-tip="ランクが Unranked のサモナーは、チーム分けの際にポイントが平均値に設定されます。"
       >
         <input
           type="number"
@@ -77,4 +78,4 @@ export const TierSelect = ({ tier, point, onChange }: TierSelectProps) => {
   );
 };
 
-export { tierToPoint, pointToTier };
+export { tierToPoint, pointToTier, tierContext };

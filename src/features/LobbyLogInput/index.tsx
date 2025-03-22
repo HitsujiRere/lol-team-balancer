@@ -2,18 +2,17 @@
 
 import { Chat } from "@phosphor-icons/react";
 import { useSetAtom } from "jotai/react";
-import type React from "react";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { newSummoner } from "~/types/Summoner";
 import { trimControlChar } from "~/utils/string";
-import { parseMessagesToNames } from "./utils/parse";
+import { parseLogToNames } from "./utils/parseLogToNames";
 
 export const LobbyLogInput = () => {
   const updateSummoners = useSetAtom(summonersReducerAtom);
 
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const messages = trimControlChar(event.target.value, "\\n");
-    const names = parseMessagesToNames(messages);
+    const log = trimControlChar(event.target.value, "\\n");
+    const names = parseLogToNames(log);
     const summoners = names.map((name) => newSummoner({ name }));
     updateSummoners({ type: "addMany", summoners });
   };
