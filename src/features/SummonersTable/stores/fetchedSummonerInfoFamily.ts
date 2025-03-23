@@ -5,9 +5,15 @@ import type { Tier } from "~/types/Tier";
 import { fetchAccount } from "../api/fetchAccount";
 import { fetchLeagueEntries } from "../api/fetchLeagueEntries";
 
-export const summonerTierFamily = atomFamily(
+type SummonerInfo = {
+  tier: Tier;
+  wins?: number;
+  losses?: number;
+};
+
+export const fetchedSummonerInfoFamily = atomFamily(
   ({ gameName, tagLine }: { gameName: string; tagLine: string }) =>
-    atom(async (get): Promise<Tier | undefined> => {
+    atom(async (get): Promise<SummonerInfo | undefined> => {
       const apikey = get(apikeyAtom);
       if (apikey === "") {
         return undefined;
@@ -29,17 +35,23 @@ export const summonerTierFamily = atomFamily(
         (leagueEntry) => leagueEntry.queueType === "RANKED_SOLO_5x5",
       );
       if (soloRanked === undefined) {
-        return "UNRANKED";
+        return {
+          tier: "UNRANKED",
+        };
       }
 
-      if (
+      const tier =
         soloRanked.tier === "MASTER" ||
         soloRanked.tier === "GRANDMASTER" ||
         soloRanked.tier === "CHALLENGER"
-      ) {
-        return soloRanked.tier;
-      }
-      return `${soloRanked.tier}_${soloRanked.rank}`;
+          ? soloRanked.tier
+          : (`${soloRanked.tier}_${soloRanked.rank}` satisfies Tier);
+
+      return {
+        tier,
+        wins: soloRanked.wins,
+        losses: soloRanked.losses,
+      };
     }),
   (a, b) => a.gameName === b.gameName && a.tagLine === b.tagLine,
 );

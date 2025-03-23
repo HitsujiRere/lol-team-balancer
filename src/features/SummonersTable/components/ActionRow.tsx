@@ -7,7 +7,7 @@ import { summonersReducerAtom } from "~/stores/Summoner";
 import { apikeyAtom } from "~/stores/debug/apikey";
 import { newSummoner } from "~/types/Summoner";
 import { trimControlChar } from "~/utils/string";
-import { useFetchTiers } from "../hooks/useFetchTiers";
+import { useFetchSummoners } from "../hooks/useFetchSummoners";
 
 export const ActionRow = () => {
   const apikey = useAtomValue(apikeyAtom);
@@ -29,7 +29,7 @@ export const ActionRow = () => {
     }
   };
 
-  const handleFetchTiers = useFetchTiers();
+  const handleFetchSummoners = useFetchSummoners();
 
   return (
     <tr>
@@ -64,14 +64,11 @@ export const ActionRow = () => {
         </form>
       </td>
       <td>
-        <div
-          className="tooltip"
-          data-tip="現在開発中の機能です。設定から Riot API Key を設定することで使用可能です。"
-        >
+        <div className="tooltip" data-tip="現在開発中の機能です。">
           <button
             type="button"
             className="btn"
-            onClick={handleFetchTiers}
+            onClick={handleFetchSummoners}
             disabled={apikey === ""}
           >
             <MagnifyingGlass className="h-4 w-4" />

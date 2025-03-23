@@ -6,6 +6,11 @@ export type Summoner = {
   tier: Tier;
   point: number;
   isMute: boolean;
+  info?: {
+    tier: Tier;
+    wins: number;
+    losses: number;
+  };
 };
 
 export const newSummoner = (init?: Partial<Summoner>): Summoner => {

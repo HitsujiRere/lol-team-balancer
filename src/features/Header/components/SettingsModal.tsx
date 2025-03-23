@@ -30,15 +30,17 @@ export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
               onChange={(e) => setDebugmode(e.target.checked)}
             />
           </label>
-          <label className="flex items-center gap-2">
-            <span>Riot API Key</span>
-            <input
-              type="password"
-              className="input"
-              value={apikey}
-              onChange={(e) => setApikey(e.target.value)}
-            />
-          </label>
+          {debugmode && (
+            <label className="flex items-center gap-2">
+              <span>Riot API Key</span>
+              <input
+                type="password"
+                className="input"
+                value={apikey}
+                onChange={(e) => setApikey(e.target.value)}
+              />
+            </label>
+          )}
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">

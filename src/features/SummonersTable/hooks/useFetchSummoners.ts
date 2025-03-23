@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { tierToPoint } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { isRiotId, parseRiotId } from "~/utils/summoner";
-import { summonerTierFamily } from "../stores/summonerTierFamily";
+import { fetchedSummonerInfoFamily } from "../stores/fetchedSummonerInfoFamily";
 
-export const useFetchTiers = () =>
+export const useFetchSummoners = () =>
   useAtomCallback(
     useCallback(async (get, set) => {
       Promise.all(
@@ -21,15 +21,23 @@ export const useFetchTiers = () =>
             const riotId = parseRiotId(summoner.name);
             if (riotId === undefined) return summoner.name;
 
-            const tier = await get(summonerTierFamily(riotId));
-            if (tier === undefined) {
+            const info = await get(fetchedSummonerInfoFamily(riotId));
+            if (info === undefined) {
               return summoner.name;
             }
 
             set(summonersReducerAtom, {
               type: "update",
               name: summoner.name,
-              changes: { tier, point: tierToPoint(tier) },
+              changes: {
+                tier: info.tier,
+                point: tierToPoint(info.tier),
+                info: {
+                  tier: info.tier,
+                  wins: info.wins ?? 0,
+                  losses: info.losses ?? 0,
+                },
+              },
             });
           }),
       ).then((err) => {

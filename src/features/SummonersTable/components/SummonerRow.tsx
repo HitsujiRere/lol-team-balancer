@@ -4,7 +4,7 @@ import { useAtom } from "jotai/react";
 import React from "react";
 import { MuteCheckbox } from "~/components/MuteCheckbox";
 import { OpggLink } from "~/components/OpggLink";
-import { TierSelect } from "~/components/TierSelect";
+import { TierSelect, tierContext } from "~/components/TierSelect";
 import { summonerReducerFamily } from "~/stores/Summoner";
 
 type TableRowProps = { name: string; index: number };
@@ -37,13 +37,23 @@ export const SummonerRow = React.memo(({ name, index }: TableRowProps) => {
         <span className="select-all text-sm">{summoner.name}</span>
       </td>
       <td>
-        <TierSelect
-          tier={summoner.tier}
-          point={summoner.point}
-          onChange={(tier, point) =>
-            updateSummoner({ type: "update", name, changes: { tier, point } })
-          }
-        />
+        <div className={classNames({ tooltip: summoner.info })}>
+          {summoner.info && (
+            <div className="tooltip-content">
+              <p>現ランク：{tierContext(summoner.info.tier)}</p>
+              <p>
+                {summoner.info.wins}勝 {summoner.info.losses}負
+              </p>
+            </div>
+          )}
+          <TierSelect
+            tier={summoner.tier}
+            point={summoner.point}
+            onChange={(tier, point) =>
+              updateSummoner({ type: "update", name, changes: { tier, point } })
+            }
+          />
+        </div>
       </td>
       <td className="text-center">
         <OpggLink summoner={summoner} />

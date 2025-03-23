@@ -4,7 +4,7 @@ import { Gear, Info } from "@phosphor-icons/react";
 import { useAtomValue } from "jotai/react";
 import { createRef } from "react";
 import { debugmodeAtom } from "~/stores/debug/mode";
-import { DebugActions } from "./components/DebugActions";
+import { DebugDropdown } from "./components/DebugDropdown";
 import { InfoModal } from "./components/InfoModal";
 import { SettingsModal } from "./components/SettingsModal";
 
@@ -34,7 +34,7 @@ export const Header = () => {
             <Gear className="h-4 w-4" />
           </button>
 
-          {debugmode && <DebugActions />}
+          {debugmode && <DebugDropdown />}
         </div>
       </div>
 
