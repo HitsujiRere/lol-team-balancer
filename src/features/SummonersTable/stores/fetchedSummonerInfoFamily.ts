@@ -13,7 +13,6 @@ export const fetchedSummonerInfoFamily = atomFamily(
   ({ gameName, tagLine }: { gameName: string; tagLine: string }) =>
     atom(async (): Promise<SummonerInfo | undefined> => {
       const leagueEntries = await fetchLeagueEntries(gameName, tagLine);
-      console.log({ gameName, tagLine, leagueEntries });
       if (leagueEntries === undefined) {
         return undefined;
       }

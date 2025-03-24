@@ -16,7 +16,6 @@ export async function GET(
   }
 
   const { name, tag } = await params;
-  console.log({ apikey, name, tag });
 
   const account = await fetchAccount(apikey, { gameName: name, tagLine: tag });
   if (account === undefined) {
