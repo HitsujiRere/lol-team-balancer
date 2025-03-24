@@ -1,12 +1,10 @@
 import { X } from "@phosphor-icons/react";
 import { useAtom } from "jotai/react";
 import type { Ref } from "react";
-import { apikeyAtom } from "~/stores/debug/apikey";
 import { debugmodeAtom } from "~/stores/debug/mode";
 
 export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
   const [debugmode, setDebugmode] = useAtom(debugmodeAtom);
-  const [apikey, setApikey] = useAtom(apikeyAtom);
 
   return (
     <dialog className="modal" ref={ref}>
@@ -30,17 +28,6 @@ export const SettingsModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
               onChange={(e) => setDebugmode(e.target.checked)}
             />
           </label>
-          {debugmode && (
-            <label className="flex items-center gap-2">
-              <span>Riot API Key</span>
-              <input
-                type="password"
-                className="input"
-                value={apikey}
-                onChange={(e) => setApikey(e.target.value)}
-              />
-            </label>
-          )}
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">

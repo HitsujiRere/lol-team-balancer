@@ -1,8 +1,6 @@
 import { atomFamily } from "jotai/utils";
 import { atom } from "jotai/vanilla";
-import { apikeyAtom } from "~/stores/debug/apikey";
 import type { Tier } from "~/types/Tier";
-import { fetchAccount } from "../api/fetchAccount";
 import { fetchLeagueEntries } from "../api/fetchLeagueEntries";
 
 type SummonerInfo = {
@@ -13,20 +11,9 @@ type SummonerInfo = {
 
 export const fetchedSummonerInfoFamily = atomFamily(
   ({ gameName, tagLine }: { gameName: string; tagLine: string }) =>
-    atom(async (get): Promise<SummonerInfo | undefined> => {
-      const apikey = get(apikeyAtom);
-      if (apikey === "") {
-        return undefined;
-      }
-
-      const account = await fetchAccount(apikey, { gameName, tagLine });
-      if (account === undefined) {
-        return undefined;
-      }
-
-      const leagueEntries = await fetchLeagueEntries(apikey, {
-        puuid: account.puuid,
-      });
+    atom(async (): Promise<SummonerInfo | undefined> => {
+      const leagueEntries = await fetchLeagueEntries(gameName, tagLine);
+      console.log({ gameName, tagLine, leagueEntries });
       if (leagueEntries === undefined) {
         return undefined;
       }

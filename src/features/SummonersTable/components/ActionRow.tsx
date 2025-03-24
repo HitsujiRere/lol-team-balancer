@@ -1,16 +1,14 @@
 import { MagnifyingGlass, Trash, UserPlus } from "@phosphor-icons/react";
-import { useAtom, useAtomValue } from "jotai/react";
+import { useAtom } from "jotai/react";
 import type React from "react";
 import { useState } from "react";
 import { OpggLinkMany } from "~/components/OpggLink";
 import { summonersReducerAtom } from "~/stores/Summoner";
-import { apikeyAtom } from "~/stores/debug/apikey";
 import { newSummoner } from "~/types/Summoner";
 import { trimControlChar } from "~/utils/string";
 import { useFetchSummoners } from "../hooks/useFetchSummoners";
 
 export const ActionRow = () => {
-  const apikey = useAtomValue(apikeyAtom);
   const [summoners, updateSummoners] = useAtom(summonersReducerAtom);
   const [newName, setNewName] = useState("");
 
@@ -64,17 +62,10 @@ export const ActionRow = () => {
         </form>
       </td>
       <td>
-        <div className="tooltip" data-tip="現在開発中の機能です。">
-          <button
-            type="button"
-            className="btn"
-            onClick={handleFetchSummoners}
-            disabled={apikey === ""}
-          >
-            <MagnifyingGlass className="h-4 w-4" />
-            ランク検出
-          </button>
-        </div>
+        <button type="button" className="btn" onClick={handleFetchSummoners}>
+          <MagnifyingGlass className="h-4 w-4" />
+          ランク検出
+        </button>
       </td>
       <td className="text-center">
         <div className="tooltip" data-tip="マルチサーチを開く（10人まで）">
