@@ -4,7 +4,7 @@ import { tierToPoint } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
 import { newSummoner } from "~/types/Summoner";
 import { type Tier, TierList } from "~/types/Tier";
-import { choice } from "../utils/choise";
+import { choice } from "~/utils/choise";
 
 const debugSummonerNames = [
   "りんご #JP0",
@@ -30,6 +30,7 @@ export const useAddRandomSummoners = () =>
           summoners: debugSummonerNames.map((name) => {
             const tier = choice(TierList.slice(firstIndex, lastIndex + 1));
             return newSummoner({
+              debug: true,
               name,
               tier,
               point: tierToPoint(tier),

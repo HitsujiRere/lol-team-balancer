@@ -27,6 +27,7 @@
     "classnames": "^2.5.1",
     "daisyui": "^5.0.0",
     "jotai": "^2.12.2",
+    "neverthrow": "^8.2.0",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4",
     "typescript": "^5"

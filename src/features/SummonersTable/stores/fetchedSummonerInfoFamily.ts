@@ -3,7 +3,7 @@ import { atom } from "jotai/vanilla";
 import type { Tier } from "~/types/Tier";
 import { fetchLeagueEntries } from "../api/fetchLeagueEntries";
 
-type SummonerInfo = {
+export type SummonerInfo = {
   tier: Tier;
   wins?: number;
   losses?: number;

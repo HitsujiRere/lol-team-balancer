@@ -1,4 +1,4 @@
-import { DotsSix, MicrophoneSlash, X } from "@phosphor-icons/react";
+import { MicrophoneSlash, X } from "@phosphor-icons/react";
 import type { Ref } from "react";
 
 export const InfoModal = ({ ref }: { ref: Ref<HTMLDialogElement> }) => {
