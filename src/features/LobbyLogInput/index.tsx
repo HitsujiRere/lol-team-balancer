@@ -11,6 +11,8 @@ export const LobbyLogInput = () => {
   const updateSummoners = useSetAtom(summonersReducerAtom);
 
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateSummoners({ type: "updateAll", changes: { isActive: false } });
+
     const log = trimControlChar(event.target.value, "\\n");
     const names = parseLogToNames(log);
     const summoners = names.map((name) => newSummoner({ name }));
