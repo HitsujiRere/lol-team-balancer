@@ -30,6 +30,7 @@
     "neverthrow": "^8.2.0",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "zod": "^3.24.2"
   }
 }

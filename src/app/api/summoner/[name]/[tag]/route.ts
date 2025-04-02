@@ -1,11 +1,18 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { fetchAccount } from "~/api/fetchAccount";
-import { fetchLeagueEntries } from "~/api/fetchLeagueEntries";
+import {
+  type LeagueEntries,
+  fetchLeagueEntries,
+} from "~/api/fetchLeagueEntries";
+
+export type GetSummonersResponse =
+  | { leagueEntries: LeagueEntries }
+  | { error: string };
 
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ name: string; tag: string }> },
-): Promise<NextResponse> {
+): Promise<NextResponse<GetSummonersResponse>> {
   const apikey = process.env.RIOT_API_KEY;
 
   if (apikey === undefined) {
@@ -18,19 +25,19 @@ export async function GET(
   const { name, tag } = await params;
 
   const account = await fetchAccount(apikey, { gameName: name, tagLine: tag });
-  if (account === undefined) {
-    return NextResponse.json({ error: "Summoner not found." }, { status: 404 });
+  if (account.isErr()) {
+    return NextResponse.json({ error: account.error }, { status: 500 });
   }
 
-  const leagueEntries = await fetchLeagueEntries(apikey, {
-    puuid: account.puuid,
-  });
-  if (leagueEntries === undefined) {
-    return NextResponse.json(
-      { error: "Failed to fetch league entries." },
-      { status: 500 },
-    );
-  }
-
-  return NextResponse.json({ leagueEntries: leagueEntries });
+  return fetchLeagueEntries(apikey, {
+    puuid: account.value.puuid,
+  }).match(
+    (leagueEntries) => NextResponse.json({ leagueEntries }),
+    (error) => {
+      if (error === "Summoner not found") {
+        return NextResponse.json({ error }, { status: 404 });
+      }
+      return NextResponse.json({ error }, { status: 500 });
+    },
+  );
 }

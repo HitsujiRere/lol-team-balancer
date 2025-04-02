@@ -1,28 +1,44 @@
-type FetchAccountParameters = {
-  gameName: string;
-  tagLine: string;
-};
+import { ResultAsync, err, ok } from "neverthrow";
+import { z } from "zod";
 
-type Account = {
-  puuid: string;
-  gameName: string;
-  tagLine: string;
-};
+const accountSchema = z.object({
+  puuid: z.string(),
+  gameName: z.string(),
+  tagLine: z.string(),
+});
 
-export const fetchAccount = async (
+export type Account = z.infer<typeof accountSchema>;
+
+export const fetchAccount = (
   apiKey: string,
-  { gameName, tagLine }: FetchAccountParameters,
-) => {
-  const res = await fetch(
-    `https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
-    {
-      headers: {
-        "X-Riot-Token": apiKey,
+  { gameName, tagLine }: { gameName: string; tagLine: string },
+): ResultAsync<Account, string> => {
+  return ResultAsync.fromPromise(
+    fetch(
+      `https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+      {
+        headers: { "X-Riot-Token": apiKey },
       },
-    },
-  );
-  if (res.status !== 200) {
-    return undefined;
-  }
-  return (await res.json()) as Account;
+    ),
+    (error) => new Error(`Failed to fetch: ${(error as Error).message}`),
+  )
+    .orElse((error) => err(error.message))
+    .andThen((response) => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          return err("Summoner not found");
+        }
+        return err(`Failed to fetch: ${response.status}`);
+      }
+      return ResultAsync.fromPromise(
+        response.json(),
+        () => "Failed to parse JSON",
+      );
+    })
+    .andThen((data) => {
+      const parsedData = accountSchema.safeParse(data);
+      return parsedData.success
+        ? ok(parsedData.data)
+        : err("Failed validation");
+    });
 };
