@@ -14,12 +14,8 @@ export async function GET(
   { params }: { params: Promise<{ name: string; tag: string }> },
 ): Promise<NextResponse<GetSummonersResponse>> {
   const apikey = process.env.RIOT_API_KEY;
-
   if (apikey === undefined) {
-    return NextResponse.json(
-      { error: "Server API key is not set." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 
   const { name, tag } = await params;

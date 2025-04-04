@@ -1,5 +1,5 @@
+import { isRiotId } from "~/types/RiotId";
 import type { Summoner } from "~/types/Summoner";
-import { isRiotId } from "~/utils/summoner";
 
 export const toOpggAddress = (summoner: Summoner): string | undefined => {
   if (!isRiotId(summoner.name)) {

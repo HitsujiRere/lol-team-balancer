@@ -1,5 +1,6 @@
 import { ResultAsync, err, ok } from "neverthrow";
 import { z } from "zod";
+import type { RiotId } from "~/types/RiotId";
 
 const accountSchema = z.object({
   puuid: z.string(),
@@ -11,7 +12,7 @@ export type Account = z.infer<typeof accountSchema>;
 
 export const fetchAccount = (
   apiKey: string,
-  { gameName, tagLine }: { gameName: string; tagLine: string },
+  { gameName, tagLine }: RiotId,
 ): ResultAsync<Account, string> => {
   return ResultAsync.fromPromise(
     fetch(

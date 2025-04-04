@@ -21,15 +21,18 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@phosphor-icons/react": "^2.1.7",
     "@tailwindcss/postcss": "^4",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "classnames": "^2.5.1",
     "daisyui": "^5.0.0",
+    "jest": "^29.7.0",
     "jotai": "^2.12.2",
     "neverthrow": "^8.2.0",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4",
+    "ts-jest": "^29.3.1",
     "typescript": "^5",
     "zod": "^3.24.2"
   }

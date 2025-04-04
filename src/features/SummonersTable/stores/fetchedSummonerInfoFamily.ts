@@ -1,5 +1,6 @@
 import { atomFamily } from "jotai/utils";
 import { atom } from "jotai/vanilla";
+import type { RiotId } from "~/types/RiotId";
 import type { Tier } from "~/types/Tier";
 import { fetchLeagueEntries } from "../api/fetchLeagueEntries";
 
@@ -10,9 +11,9 @@ export type SummonerInfo = {
 };
 
 export const fetchedSummonerInfoFamily = atomFamily(
-  ({ gameName, tagLine }: { gameName: string; tagLine: string }) =>
+  (riotId: RiotId) =>
     atom(async (): Promise<SummonerInfo | undefined> => {
-      const leagueEntries = await fetchLeagueEntries(gameName, tagLine);
+      const leagueEntries = await fetchLeagueEntries(riotId);
       if (leagueEntries === undefined) {
         return undefined;
       }

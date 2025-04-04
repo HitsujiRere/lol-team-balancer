@@ -4,9 +4,9 @@ import { useCallback } from "react";
 import { toast } from "react-toastify";
 import { tierToPoint } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
+import { isRiotId, parseToRiotId } from "~/types/RiotId";
 import { TierList } from "~/types/Tier";
 import { choice } from "~/utils/choise";
-import { isRiotId, parseRiotId } from "~/utils/summoner";
 import {
   type SummonerInfo,
   fetchedSummonerInfoFamily,
@@ -37,13 +37,13 @@ export const useFetchSummoners = () =>
             });
           }
 
-          const riotId = parseRiotId(summoner.name);
-          if (riotId === undefined) {
+          const riotId = parseToRiotId(summoner.name);
+          if (riotId.isErr()) {
             return errAsync(summoner.name);
           }
 
           return ResultAsync.fromSafePromise(
-            get(fetchedSummonerInfoFamily(riotId)),
+            get(fetchedSummonerInfoFamily(riotId.value)),
           ).andThen((info) => {
             if (info) {
               return okAsync({ ...info, name: summoner.name });
