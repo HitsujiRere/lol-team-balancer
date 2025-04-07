@@ -60,5 +60,5 @@ export async function GET(
       ),
   );
 
-  return NextResponse.json({ summoners: results }, { status: 500 });
+  return NextResponse.json({ summoners: results }, { status: 200 });
 }
