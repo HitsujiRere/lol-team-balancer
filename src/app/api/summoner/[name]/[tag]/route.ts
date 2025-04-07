@@ -5,14 +5,14 @@ import {
   fetchLeagueEntries,
 } from "~/api/fetchLeagueEntries";
 
-export type GetSummonersResponse =
+export type GetSummonerResponse =
   | { leagueEntries: LeagueEntries }
   | { error: string };
 
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ name: string; tag: string }> },
-): Promise<NextResponse<GetSummonersResponse>> {
+): Promise<NextResponse<GetSummonerResponse>> {
   const apikey = process.env.RIOT_API_KEY;
   if (apikey === undefined) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

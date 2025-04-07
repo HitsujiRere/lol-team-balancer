@@ -23,7 +23,7 @@ export const fetchAccount = (
     ),
     (error) => new Error(`Failed to fetch: ${(error as Error).message}`),
   )
-    .orElse((error) => err(error.message))
+    .mapErr((error) => error.message)
     .andThen((response) => {
       if (!response.ok) {
         if (response.status === 404) {
