@@ -3,7 +3,6 @@
 import {
   CaretLeft,
   CaretRight,
-  Copy,
   DiceFive,
   Flag,
   Users,
@@ -67,20 +66,6 @@ export const GamePlanList = () => {
     toast.success("チーム分けをしました。");
   };
 
-  const handleCopyPlan = () => {
-    const plan = plans[selectedPlanIndex];
-    if (plan === undefined) {
-      return;
-    }
-    const blueNames = plan.blue.map((name) => name).join("\n");
-    const redNames = plan.red.map((name) => name).join("\n");
-    navigator.clipboard.writeText(
-      `--- チーム1 ---\n${blueNames}\n--- チーム2 ---\n${redNames}`,
-    );
-
-    toast.success("結果をコピーしました。");
-  };
-
   return (
     <div>
       <h2 className="mb-2 flex items-center gap-2 text-xl">
@@ -98,16 +83,6 @@ export const GamePlanList = () => {
           >
             <Flag className="h-4 w-4" />
             チーム分け ({activeSummoners.length}/10)
-          </button>
-
-          <button
-            type="button"
-            className="btn"
-            disabled={plans.length === 0}
-            onClick={handleCopyPlan}
-          >
-            <Copy className="h-4 w-4" />
-            結果をコピー
           </button>
         </div>
 
