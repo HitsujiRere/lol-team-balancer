@@ -1,57 +1,96 @@
 import { useAtomCallback } from "jotai/utils";
-import { ResultAsync, errAsync, okAsync } from "neverthrow";
+import { Result, err, ok } from "neverthrow";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
 import { tierToPoint } from "~/components/TierSelect";
 import { summonersReducerAtom } from "~/stores/Summoner";
-import { isRiotId, parseToRiotId } from "~/types/RiotId";
-import { TierList } from "~/types/Tier";
+import { isRiotId } from "~/types/RiotId";
+import { type Tier, TierList } from "~/types/Tier";
 import { choice } from "~/utils/choise";
-import {
-  type SummonerInfo,
-  fetchedSummonerInfoFamily,
-} from "../stores/fetchedSummonerInfoFamily";
+import { fetchSummonersLeagueEntries } from "../api/fetchSummonersLeagueEntries";
 
-type FetchedInfo = SummonerInfo & {
+type SummonerInfo = {
   name: string;
+  tier: Tier;
+  wins?: number;
+  losses?: number;
 };
 
 export const useFetchSummoners = () =>
   useAtomCallback(
     useCallback(async (get, set) => {
-      const infos = Object.values(get(summonersReducerAtom))
+      const summoners = Object.values(get(summonersReducerAtom))
         .filter(
           (summoner) =>
+            summoner.info === undefined &&
             summoner.isActive &&
-            summoner.tier === "UNRANKED" &&
-            isRiotId(summoner.name),
+            isRiotId(summoner.name) &&
+            summoner.tier === "UNRANKED",
         )
-        .map((summoner): ResultAsync<FetchedInfo, string> => {
-          if (summoner.debug) {
-            const tier = choice(TierList);
-            return okAsync({
+        .splice(0, 15);
+
+      if (summoners.length === 0) {
+        return;
+      }
+
+      const debugSummonerInfos = summoners
+        .filter((summoner) => summoner.debug)
+        .map(
+          (summoner): Result<SummonerInfo, never> =>
+            ok({
               name: summoner.name,
-              tier: tier,
+              tier: choice(TierList),
               wins: Math.floor(Math.random() * 20),
               losses: Math.floor(Math.random() * 20),
+            }),
+        );
+
+      const fetchedSummonerLeagueEntries = await fetchSummonersLeagueEntries(
+        summoners
+          .filter((summoner) => !summoner.debug)
+          .map((summoner) => summoner.name),
+      );
+      if (fetchedSummonerLeagueEntries.isErr()) {
+        toast.error(
+          `ランクを検出できませんでした。：${fetchedSummonerLeagueEntries.error}`,
+        );
+        return;
+      }
+
+      const fetchedSummonerInfos = fetchedSummonerLeagueEntries
+        ._unsafeUnwrap()
+        .map((summoner): Result<SummonerInfo, string> => {
+          if (summoner.leagueEntries === undefined) {
+            return err(summoner.name);
+          }
+
+          const soloRanked = summoner.leagueEntries.find(
+            (leagueEntry) => leagueEntry.queueType === "RANKED_SOLO_5x5",
+          );
+          if (soloRanked === undefined) {
+            return ok({
+              name: summoner.name,
+              tier: "UNRANKED",
             });
           }
 
-          const riotId = parseToRiotId(summoner.name);
-          if (riotId.isErr()) {
-            return errAsync(summoner.name);
-          }
+          const tier =
+            soloRanked.tier === "MASTER" ||
+            soloRanked.tier === "GRANDMASTER" ||
+            soloRanked.tier === "CHALLENGER"
+              ? soloRanked.tier
+              : (`${soloRanked.tier}_${soloRanked.rank}` satisfies Tier);
 
-          return ResultAsync.fromSafePromise(
-            get(fetchedSummonerInfoFamily(riotId.value)),
-          ).andThen((info) => {
-            if (info) {
-              return okAsync({ ...info, name: summoner.name });
-            }
-            return errAsync(summoner.name);
+          return ok({
+            name: summoner.name,
+            tier,
+            wins: soloRanked.wins,
+            losses: soloRanked.losses,
           });
-        })
-        .map((infos) =>
+        });
+
+      const errors = [...debugSummonerInfos, ...fetchedSummonerInfos].map(
+        (infos) =>
           infos.map((info) =>
             set(summonersReducerAtom, {
               type: "update",
@@ -67,9 +106,9 @@ export const useFetchSummoners = () =>
               },
             }),
           ),
-        );
+      );
 
-      ResultAsync.combineWithAllErrors(infos)
+      Result.combineWithAllErrors(errors)
         .map(() => toast.success("ランクを検出しました！"))
         .mapErr((names) =>
           toast.error(`${names.join(",")}のランクを検出できませんでした。`),
