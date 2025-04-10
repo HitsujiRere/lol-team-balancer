@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import type React from "react";
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import type { AuthLoginResponse } from "~/app/api/admin/login/route";
+import type { AdminLoginResponse } from "~/app/api/admin/login/route";
 
 export default function Home() {
   const [password, setPassword] = useState("tonarino-totoro");
@@ -24,7 +24,7 @@ export default function Home() {
         .andThen((res) =>
           ResultAsync.fromPromise(res.json(), () => "Failed to parse JSON"),
         )
-        .map((res) => res as AuthLoginResponse)
+        .map((res) => res as AdminLoginResponse)
         .andThen((res) => (res.success ? ok() : err(res.error)))
         .map(() => {
           toast.success("Login successed!");

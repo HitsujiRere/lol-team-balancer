@@ -3,14 +3,14 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { AuthToken } from "~/api/auth/verifyAuthToken";
 
-export type AuthLoginResponse = {
+export type AdminLoginResponse = {
   success: boolean;
   error?: string;
 };
 
 export async function POST(
   request: Request,
-): Promise<NextResponse<AuthLoginResponse>> {
+): Promise<NextResponse<AdminLoginResponse>> {
   const body = await request.json();
   const inputPassword = String(body.password);
 

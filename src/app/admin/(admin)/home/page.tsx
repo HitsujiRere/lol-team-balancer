@@ -4,7 +4,7 @@ import { ResultAsync, err, ok } from "neverthrow";
 import { redirect } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
-import type { AuthLogoutResponse } from "~/app/api/admin/logout/route";
+import type { AdminLogoutResponse } from "~/app/api/admin/logout/route";
 
 export default function Home() {
   const testApiHandler = useCallback(() => {
@@ -29,7 +29,7 @@ export default function Home() {
       .andThen((res) =>
         ResultAsync.fromPromise(res.json(), () => "Failed to parse JSON"),
       )
-      .map((res) => res as AuthLogoutResponse)
+      .map((res) => res as AdminLogoutResponse)
       .andThen((res) => (res.success ? ok() : err()))
       .map(() => {
         toast.success("Logout successed!");
