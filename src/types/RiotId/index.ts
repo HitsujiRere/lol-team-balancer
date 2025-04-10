@@ -1,4 +1,3 @@
-import { riotIDSchema } from "./schemas/riotId";
 import { isRiotId } from "./utils/isRiotId";
 import { parseToRiotId } from "./utils/parseToRiotId";
 
@@ -7,4 +6,4 @@ export type RiotId = {
   tagLine: string;
 };
 
-export { isRiotId, parseToRiotId, riotIDSchema };
+export { isRiotId, parseToRiotId };

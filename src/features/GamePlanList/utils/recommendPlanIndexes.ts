@@ -42,7 +42,7 @@ export const recommendPlanIndexes = (plans: GamePlan[]): number[] => {
 const isFarthest = (sourceId: number, targetId: number): boolean =>
   popcount(sourceId & targetId) === 2;
 
-// sourceIdから最も遠いプランのIDを見つける
+// sourceIdから最も遠いプランのIdを見つける
 const findFarthestPlanIds = (sourceId: number): number[] => {
   const planIds: number[] = [];
   for (let targetId = 0; targetId < 1 << 10; targetId++) {
