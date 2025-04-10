@@ -1,9 +1,12 @@
+import { desc } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { fetchAccount } from "~/api/fetchAccount";
 import {
   type LeagueEntries,
   fetchLeagueEntries,
 } from "~/api/fetchLeagueEntries";
+import { db } from "~/db";
+import { riotApiKey } from "~/db/schema";
 import { parseToRiotId } from "~/types/RiotId";
 
 export type GetSummonersResponse = {
@@ -36,17 +39,21 @@ export async function GET(
     );
   }
 
-  const apikey = process.env.RIOT_API_KEY;
-  if (apikey === undefined) {
+  const [latestRiotApikey] = await db
+    .select()
+    .from(riotApiKey)
+    .orderBy(desc(riotApiKey.createdAt))
+    .limit(1);
+  if (latestRiotApikey === undefined) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 
   const resultAsyncSummonersLeagueEntries = summonerNames.map((name) =>
     parseToRiotId(name)
       .mapErr(() => "Failed to parse to RiotId")
-      .asyncAndThen((id) => fetchAccount(apikey, id))
+      .asyncAndThen((id) => fetchAccount(latestRiotApikey.apiKey, id))
       .andThen((account) =>
-        fetchLeagueEntries(apikey, { puuid: account.puuid }),
+        fetchLeagueEntries(latestRiotApikey.apiKey, { puuid: account.puuid }),
       )
       .map((leagueEntries) => ({ name, leagueEntries }))
       .mapErr((error) => ({ name, error })),
