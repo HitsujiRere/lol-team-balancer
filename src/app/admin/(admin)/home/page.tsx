@@ -1,6 +1,7 @@
 "use client";
 
 import { ResultAsync, err, ok } from "neverthrow";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
@@ -50,6 +51,12 @@ export default function Home() {
         <button type="button" className="btn" onClick={logoutHandler}>
           ログアウト
         </button>
+
+        <Link href="./riot-api-key">
+          <button type="button" className="btn">
+            Riot API Key
+          </button>
+        </Link>
       </main>
     </div>
   );
