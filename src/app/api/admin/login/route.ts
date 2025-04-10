@@ -3,15 +3,15 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { AuthToken } from "~/api/auth/verifyAuthToken";
 
-export type GetSummonersResponse = {
+export type AuthLoginResponse = {
   success: boolean;
   error?: string;
 };
 
 export async function POST(
-  req: Request,
-): Promise<NextResponse<GetSummonersResponse>> {
-  const body = await req.json();
+  request: Request,
+): Promise<NextResponse<AuthLoginResponse>> {
+  const body = await request.json();
   const inputPassword = String(body.password);
 
   const expectedPassword = process.env.ADMIN_PASSWORD;

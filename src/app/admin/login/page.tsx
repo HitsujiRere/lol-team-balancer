@@ -1,9 +1,11 @@
 "use client";
 
 import { ResultAsync, err, ok } from "neverthrow";
+import { redirect } from "next/navigation";
 import type React from "react";
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
+import type { AuthLoginResponse } from "~/app/api/admin/login/route";
 
 export default function Home() {
   const [password, setPassword] = useState("tonarino-totoro");
@@ -17,36 +19,25 @@ export default function Home() {
           method: "POST",
           body: JSON.stringify({ password }),
         }),
-        (error) => new Error(`Failed to fetch: ${(error as Error).message}`),
+        (error) => `Failed to fetch: ${(error as Error).message}`,
       )
         .andThen((res) =>
           ResultAsync.fromPromise(res.json(), () => "Failed to parse JSON"),
         )
-        .map((res) => res as { success: boolean; error?: string })
+        .map((res) => res as AuthLoginResponse)
         .andThen((res) => (res.success ? ok() : err(res.error)))
-        .map(() => toast.success("Login successed!"))
-        .mapErr((err) => toast.error(err?.toString()));
+        .map(() => {
+          toast.success("Login successed!");
+          redirect("/admin/home");
+        })
+        .mapErr((error) => toast.error(error));
     },
     [password],
   );
 
-  const testApiHandler = useCallback(() => {
-    ResultAsync.fromPromise(
-      fetch("/api/admin/test"),
-      (error) => new Error(`Failed to fetch: ${(error as Error).message}`),
-    )
-      .andThen((res) =>
-        ResultAsync.fromPromise(res.json(), () => "Failed to parse JSON"),
-      )
-      .map((res) => res as { message?: string; error?: string })
-      .andThen((res) => (res.message ? ok(res.message) : err(res.error)))
-      .map((message) => toast.success(message))
-      .mapErr((err) => toast.error(err?.toString()));
-  }, []);
-
   return (
     <div className="m-8">
-      <main className="flex flex-col gap-4">
+      <main>
         <h1 className="text-2xl">Admin</h1>
 
         <form className="join" onSubmit={loginHandler}>
@@ -61,10 +52,6 @@ export default function Home() {
             ログイン
           </button>
         </form>
-
-        <button type="button" className="btn" onClick={testApiHandler}>
-          管理者APIテストボタン
-        </button>
       </main>
     </div>
   );
