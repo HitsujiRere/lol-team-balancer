@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import type { AdminLoginResponse } from "~/app/api/admin/login/route";
 
 export default function Home() {
-  const [password, setPassword] = useState("tonarino-totoro");
+  const [password, setPassword] = useState("");
 
   const loginHandler = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
