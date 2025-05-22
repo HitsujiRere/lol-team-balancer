@@ -4,5 +4,10 @@
   "private": true,
   "description": "",
   "license": "MIT",
-  "scripts": {}
+  "scripts": {
+    "format": "biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
+  }
 }
