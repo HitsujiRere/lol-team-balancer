@@ -5,9 +5,13 @@
   "description": "",
   "license": "MIT",
   "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
     "format": "biome check --write"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4"
-  }
+    "@biomejs/biome": "^1.9.4",
+    "turbo": "^2.5.3"
+  },
+  "packageManager": "pnpm@10.11.0"
 }

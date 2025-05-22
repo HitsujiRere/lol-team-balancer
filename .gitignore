@@ -137,5 +137,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Turbo
+.turbo/
+
 # Editor
 .vscode/
