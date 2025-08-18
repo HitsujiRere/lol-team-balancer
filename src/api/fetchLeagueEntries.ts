@@ -17,7 +17,6 @@ const leagueEntrySchema = z.object({
     "IRON",
   ]),
   rank: z.enum(["I", "II", "III", "IV"]),
-  summonerId: z.string(),
   puuid: z.string(),
   leaguePoints: z.number(),
   wins: z.number(),
@@ -61,6 +60,6 @@ export const fetchLeagueEntries = (
       const parsedData = leagueEntriesSchema.safeParse(data);
       return parsedData.success
         ? ok(parsedData.data)
-        : err("Failed validation");
+        : err("Failed league entries validation");
     });
 };

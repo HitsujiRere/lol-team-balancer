@@ -40,6 +40,6 @@ export const fetchAccount = (
       const parsedData = accountSchema.safeParse(data);
       return parsedData.success
         ? ok(parsedData.data)
-        : err("Failed validation");
+        : err("Failed account validation");
     });
 };
