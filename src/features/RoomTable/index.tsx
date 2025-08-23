@@ -1,6 +1,7 @@
 "use client";
 
 import { UsersIcon } from "lucide-react";
+import React from "react";
 import { useShallow } from "zustand/shallow";
 import { useRoomSummonersStore } from "@/app/stores/useRoomSummonersStore";
 import {
@@ -12,11 +13,17 @@ import {
 } from "@/components/ui/table";
 import { HeaderRows, headerColumns } from "./components/HeaderRows";
 import { SummonerRow } from "./components/SummonerRow";
+import { useSelectionStores } from "./stores/useSelectionStore";
 
 export const RoomTable = () => {
   const summonerNames = useRoomSummonersStore(
     useShallow((state) => Object.keys(state.summoners)),
   );
+
+  const setSelectionNames = useSelectionStores((state) => state.setNames);
+  React.useEffect(() => {
+    setSelectionNames(summonerNames);
+  }, [summonerNames, setSelectionNames]);
 
   return (
     <>
