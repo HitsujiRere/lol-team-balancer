@@ -1,8 +1,8 @@
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import React from "react";
-import { useRoomSummonersStore } from "@/app/stores/useRoomSummonersStore";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableHead, TableRow } from "@/components/ui/table";
+import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
 import { useSelectionStores } from "../stores/useSelectionStore";
 
 export const HeaderRows = () => {

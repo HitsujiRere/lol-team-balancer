@@ -2,9 +2,9 @@
 
 import { MessageSquareIcon } from "lucide-react";
 import React from "react";
-import { useRoomSummonersStore } from "@/app/stores/useRoomSummonersStore";
 import { Textarea } from "@/components/ui/textarea";
 import { toName } from "@/models/RiotId";
+import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
 import { parseMessageToRiotIds } from "./utils/parseMessageToRiotIds";
 
 export const RoomMessageTextarea = () => {

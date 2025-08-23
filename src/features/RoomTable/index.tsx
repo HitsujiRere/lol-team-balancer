@@ -3,7 +3,6 @@
 import { UsersIcon } from "lucide-react";
 import React from "react";
 import { useShallow } from "zustand/shallow";
-import { useRoomSummonersStore } from "@/app/stores/useRoomSummonersStore";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -12,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
 import { HeaderRows, headerColumns } from "./components/HeaderRows";
 import { SummonerRow } from "./components/SummonerRow";
 import { useSelectionStores } from "./stores/useSelectionStore";
