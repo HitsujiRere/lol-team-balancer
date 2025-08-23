@@ -6,9 +6,7 @@ import { TableHead, TableRow } from "@/components/ui/table";
 import { useSelectionStores } from "../stores/useSelectionStore";
 
 export const HeaderRows = () => {
-  const rooms = useRoomSummonersStore(
-    (state) => Object.keys(state.summoners).length,
-  );
+  const rooms = useRoomSummonersStore((state) => state.names.length);
   const selecteds = useSelectionStores((state) => state.selectedNames().length);
   const checked = React.useMemo((): CheckedState => {
     if (rooms === 0 || selecteds === 0) {

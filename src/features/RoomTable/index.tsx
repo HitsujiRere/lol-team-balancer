@@ -16,14 +16,12 @@ import { SummonerRow } from "./components/SummonerRow";
 import { useSelectionStores } from "./stores/useSelectionStore";
 
 export const RoomTable = () => {
-  const summonerNames = useRoomSummonersStore(
-    useShallow((state) => Object.keys(state.summoners)),
-  );
+  const roomNames = useRoomSummonersStore(useShallow((state) => state.names));
 
   const setSelectionNames = useSelectionStores((state) => state.setNames);
   React.useEffect(() => {
-    setSelectionNames(summonerNames);
-  }, [summonerNames, setSelectionNames]);
+    setSelectionNames(roomNames);
+  }, [roomNames, setSelectionNames]);
 
   return (
     <>
@@ -39,10 +37,8 @@ export const RoomTable = () => {
               <HeaderRows />
             </TableHeader>
             <TableBody>
-              {summonerNames.length >= 1 ? (
-                summonerNames.map((name) => (
-                  <SummonerRow key={name} name={name} />
-                ))
+              {roomNames.length >= 1 ? (
+                roomNames.map((name) => <SummonerRow key={name} name={name} />)
               ) : (
                 <TableRow>
                   <TableCell
