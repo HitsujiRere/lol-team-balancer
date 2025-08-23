@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useSelectionStores } from "../stores/useSelectionStore";
@@ -16,13 +17,17 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
     [name, changeByName],
   );
 
+  const [tier, setTier] = useState<Tier | undefined>(undefined);
+
   return (
     <TableRow data-state={checked && "selected"}>
       <TableCell>
         <Checkbox checked={checked} onCheckedChange={checkedChangeHandler} />
       </TableCell>
       <TableCell>{name}</TableCell>
-      <TableCell>Gold 1</TableCell>
+      <TableCell>
+        <TierSelect onChange={setTier} tier={tier} />
+      </TableCell>
       <TableCell>
         <Checkbox />
       </TableCell>
