@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { TIERS, type Tier } from "@/models/Tier";
+import { TierLabel } from "./components/TierLabel";
 
 export type TierSelectProps = {
   tier?: Tier;
@@ -41,7 +42,7 @@ export const TierSelect = ({ tier, onChange }: TierSelectProps) => {
           role="combobox"
           variant="outline"
         >
-          {tier ?? "未選択"}
+          <TierLabel tier={tier} />
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -57,7 +58,7 @@ export const TierSelect = ({ tier, onChange }: TierSelectProps) => {
                   onSelect={selectHandler}
                   value={itemTier}
                 >
-                  {itemTier}
+                  <TierLabel tier={itemTier} />
                   <Check
                     className={cn(
                       "ml-auto",

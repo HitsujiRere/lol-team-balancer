@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
+import type { Tier } from "@/models/Tier";
 import { useSelectionStores } from "../stores/useSelectionStore";
 
 export type SummonerRowProps = {

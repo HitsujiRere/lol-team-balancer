@@ -1,6 +1,4 @@
-import type { Tier } from "..";
-
-export const isIron = (tier: Tier) => {
+export const isIron = (tier: unknown) => {
   return (
     tier === "IRON_I" ||
     tier === "IRON_II" ||
@@ -9,7 +7,7 @@ export const isIron = (tier: Tier) => {
   );
 };
 
-export const isBronze = (tier: Tier) => {
+export const isBronze = (tier: unknown) => {
   return (
     tier === "BRONZE_I" ||
     tier === "BRONZE_II" ||
@@ -18,7 +16,7 @@ export const isBronze = (tier: Tier) => {
   );
 };
 
-export const isSilver = (tier: Tier) => {
+export const isSilver = (tier: unknown) => {
   return (
     tier === "SILVER_I" ||
     tier === "SILVER_II" ||
@@ -27,7 +25,7 @@ export const isSilver = (tier: Tier) => {
   );
 };
 
-export const isGold = (tier: Tier) => {
+export const isGold = (tier: unknown) => {
   return (
     tier === "GOLD_I" ||
     tier === "GOLD_II" ||
@@ -36,7 +34,7 @@ export const isGold = (tier: Tier) => {
   );
 };
 
-export const isPlatinum = (tier: Tier) => {
+export const isPlatinum = (tier: unknown) => {
   return (
     tier === "PLATINUM_I" ||
     tier === "PLATINUM_II" ||
@@ -45,7 +43,7 @@ export const isPlatinum = (tier: Tier) => {
   );
 };
 
-export const isEmerald = (tier: Tier) => {
+export const isEmerald = (tier: unknown) => {
   return (
     tier === "EMERALD_I" ||
     tier === "EMERALD_II" ||
@@ -54,7 +52,7 @@ export const isEmerald = (tier: Tier) => {
   );
 };
 
-export const isDiamond = (tier: Tier) => {
+export const isDiamond = (tier: unknown) => {
   return (
     tier === "DIAMOND_I" ||
     tier === "DIAMOND_II" ||
@@ -63,6 +61,6 @@ export const isDiamond = (tier: Tier) => {
   );
 };
 
-export const isMasterPlus = (tier: Tier) => {
+export const isMasterPlus = (tier: unknown) => {
   return tier === "MASTER" || tier === "GRANDMASTER" || tier === "CHALLENGER";
 };
