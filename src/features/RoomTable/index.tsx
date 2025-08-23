@@ -3,6 +3,15 @@
 import { UsersIcon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
 import { useRoomSummonersStore } from "@/app/stores/useRoomSummonersStore";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { HeaderRows, headerColumns } from "./components/HeaderRows";
+import { SummonerRow } from "./components/SummonerRow";
 
 export const RoomTable = () => {
   const summonerNames = useRoomSummonersStore(
@@ -16,12 +25,30 @@ export const RoomTable = () => {
         ルームサモナー
       </h2>
 
-      <p>table</p>
-
       <div>
-        {summonerNames.map((name) => (
-          <p key={name}>{name}</p>
-        ))}
+        <div className="overflow-hidden rounded-md border">
+          <Table>
+            <TableHeader>
+              <HeaderRows />
+            </TableHeader>
+            <TableBody>
+              {summonerNames.length >= 1 ? (
+                summonerNames.map((name) => (
+                  <SummonerRow key={name} name={name} />
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    className="h-24 text-center"
+                    colSpan={headerColumns}
+                  >
+                    まだ誰もいません 😴
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </>
   );
