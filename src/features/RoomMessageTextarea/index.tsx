@@ -4,18 +4,18 @@ import { MessageSquareIcon } from "lucide-react";
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { toName } from "@/models/RiotId";
-import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
+import { useRoomStore } from "@/stores/useRoomStore";
 import { parseMessageToRiotIds } from "./utils/parseMessageToRiotIds";
 
 export const RoomMessageTextarea = () => {
-  const createRoomSummoners = useRoomSummonersStore((state) => state.create);
+  const setRoomNames = useRoomStore((state) => state.setNames);
 
   const changeHandler = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const riotIds = parseMessageToRiotIds(event.target.value);
-      createRoomSummoners(riotIds.map((riotId) => toName(riotId)));
+      setRoomNames(riotIds.map((riotId) => toName(riotId)));
     },
-    [createRoomSummoners],
+    [setRoomNames],
   );
 
   return (

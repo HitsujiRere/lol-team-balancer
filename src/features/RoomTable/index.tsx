@@ -11,13 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
+import { useRoomStore } from "@/stores/useRoomStore";
 import { HeaderRows, headerColumns } from "./components/HeaderRows";
 import { SummonerRow } from "./components/SummonerRow";
 import { useSelectionStores } from "./stores/useSelectionStore";
 
 export const RoomTable = () => {
-  const roomNames = useRoomSummonersStore(useShallow((state) => state.names));
+  const roomNames = useRoomStore(useShallow((state) => state.names));
 
   const setSelectionNames = useSelectionStores((state) => state.setNames);
   React.useEffect(() => {

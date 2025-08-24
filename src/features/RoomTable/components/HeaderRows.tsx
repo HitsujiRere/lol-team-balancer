@@ -2,21 +2,23 @@ import type { CheckedState } from "@radix-ui/react-checkbox";
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableHead, TableRow } from "@/components/ui/table";
-import { useRoomSummonersStore } from "@/stores/useRoomSummonersStore";
+import { useRoomStore } from "@/stores/useRoomStore";
 import { useSelectionStores } from "../stores/useSelectionStore";
 
 export const HeaderRows = () => {
-  const rooms = useRoomSummonersStore((state) => state.names.length);
-  const selecteds = useSelectionStores((state) => state.selectedNames().length);
+  const roomNames = useRoomStore((state) => state.names.length);
+  const selectedNames = useSelectionStores(
+    (state) => state.selectedNames().length,
+  );
   const checked = React.useMemo((): CheckedState => {
-    if (rooms === 0 || selecteds === 0) {
+    if (roomNames === 0 || selectedNames === 0) {
       return false;
     }
-    if (selecteds < rooms) {
+    if (selectedNames < roomNames) {
       return "indeterminate";
     }
     return true;
-  }, [rooms, selecteds]);
+  }, [roomNames, selectedNames]);
 
   const checkedChangeHandler = useSelectionStores((state) => state.changeAll);
 

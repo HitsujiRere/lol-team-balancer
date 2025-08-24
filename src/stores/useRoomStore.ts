@@ -3,13 +3,13 @@ import { mutative } from "zustand-mutative";
 
 type State = {
   names: string[];
-  create: (names: string[]) => void;
+  setNames: (names: string[]) => void;
 };
 
-export const useRoomSummonersStore = create<State>()(
+export const useRoomStore = create<State>()(
   mutative((set, _get) => ({
     names: [],
-    create: (names) =>
+    setNames: (names) =>
       set((state) => {
         state.names = names;
       }),
