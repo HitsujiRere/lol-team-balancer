@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRoomStore } from "@/stores/useRoomStore";
+import { DebugButtons } from "./components/DebugButtons";
 import { HeaderRows, headerColumns } from "./components/HeaderRows";
 import { SummonerRow } from "./components/SummonerRow";
 import { useSelectionStores } from "./stores/useSelectionStore";
@@ -35,7 +36,7 @@ export const RoomTable = () => {
         ルームサモナー
       </h2>
 
-      <div className="mb-2">
+      <div className="mb-2 flex gap-4">
         <Button
           disabled={selectedNames.length !== 10}
           onClick={() => {
@@ -44,6 +45,8 @@ export const RoomTable = () => {
         >
           チームメンバー決定 {selectedNames.length}/10人
         </Button>
+
+        <DebugButtons />
       </div>
 
       <div>
