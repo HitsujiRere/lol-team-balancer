@@ -1,4 +1,4 @@
-import { CircleIcon } from "lucide-react";
+import { CircleIcon, CircleQuestionMarkIcon } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -20,19 +20,23 @@ export type TierLabelProps = {
 export const TierLabel = React.memo(({ tier }: TierLabelProps) => {
   return (
     <span className="inline-flex items-center gap-2">
-      <CircleIcon
-        className={cn({
-          "stroke-0": tier !== "UNRANKED",
-          "fill-lol-iron-foreground": isIron(tier),
-          "fill-lol-bronze-foreground": isBronze(tier),
-          "fill-lol-silver-foreground": isSilver(tier),
-          "fill-lol-gold-foreground": isGold(tier),
-          "fill-lol-platinum-foreground": isPlatinum(tier),
-          "fill-lol-emerald-foreground": isEmerald(tier),
-          "fill-lol-diamond-foreground": isDiamond(tier),
-          "fill-lol-master-foreground": isMasterPlus(tier),
-        })}
-      />
+      {tier === undefined ? (
+        <CircleQuestionMarkIcon />
+      ) : (
+        <CircleIcon
+          className={cn({
+            "stroke-0": tier !== "UNRANKED",
+            "fill-lol-iron-foreground": isIron(tier),
+            "fill-lol-bronze-foreground": isBronze(tier),
+            "fill-lol-silver-foreground": isSilver(tier),
+            "fill-lol-gold-foreground": isGold(tier),
+            "fill-lol-platinum-foreground": isPlatinum(tier),
+            "fill-lol-emerald-foreground": isEmerald(tier),
+            "fill-lol-diamond-foreground": isDiamond(tier),
+            "fill-lol-master-foreground": isMasterPlus(tier),
+          })}
+        />
+      )}
       <span>{tier ?? "未設定"}</span>
     </span>
   );
