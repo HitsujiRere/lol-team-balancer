@@ -1,5 +1,6 @@
 import React from "react";
 import { useShallow } from "zustand/shallow";
+import { MuteToggle } from "@/components/MuteToggle";
 import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -44,10 +45,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <TierSelect onChange={changeTierHandler} tier={summoner.tier} />
       </TableCell>
       <TableCell>
-        <Checkbox
-          checked={summoner.isMute}
-          onCheckedChange={changeMuteHandler}
-        />
+        <MuteToggle mute={summoner.isMute} onChange={changeMuteHandler} />
       </TableCell>
     </TableRow>
   );
