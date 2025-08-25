@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import { useShallow } from "zustand/shallow";
 import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Tier } from "@/models/Tier";
+import { useSummonersStore } from "@/stores/useSummonersStore";
 import { useSelectionStores } from "../stores/useSelectionStore";
 
 export type SummonerRowProps = {
@@ -18,7 +20,19 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
     [name, changeByName],
   );
 
-  const [tier, setTier] = useState<Tier | undefined>(undefined);
+  const summoner = useSummonersStore(
+    useShallow((state) => state.summoners[name]),
+  );
+  const changeSummoner = useSummonersStore((state) => state.change);
+
+  const changeTierHandler = React.useCallback(
+    (tier: Tier) => changeSummoner(name, { tier }),
+    [name, changeSummoner],
+  );
+  const changeMuteHandler = React.useCallback(
+    (isMute: boolean) => changeSummoner(name, { isMute }),
+    [name, changeSummoner],
+  );
 
   return (
     <TableRow data-state={checked && "selected"}>
@@ -27,10 +41,13 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
       </TableCell>
       <TableCell>{name}</TableCell>
       <TableCell>
-        <TierSelect onChange={setTier} tier={tier} />
+        <TierSelect onChange={changeTierHandler} tier={summoner.tier} />
       </TableCell>
       <TableCell>
-        <Checkbox />
+        <Checkbox
+          checked={summoner.isMute}
+          onCheckedChange={changeMuteHandler}
+        />
       </TableCell>
     </TableRow>
   );

@@ -5,6 +5,7 @@ import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { toName } from "@/models/RiotId";
 import { useRoomStore } from "@/stores/useRoomStore";
+import { useSummonersStore } from "@/stores/useSummonersStore";
 import { DebugButtons } from "./components/DebugButtons";
 import { parseMessageToRiotIds } from "./utils/parseMessageToRiotIds";
 
@@ -12,13 +13,15 @@ export const RoomMessageTextarea = () => {
   const ref = React.useRef(null);
 
   const setRoomNames = useRoomStore((state) => state.setNames);
+  const createSummoners = useSummonersStore((state) => state.createByRiotIds);
 
   const changeHandler = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const riotIds = parseMessageToRiotIds(event.target.value);
       setRoomNames(riotIds.map((riotId) => toName(riotId)));
+      createSummoners(riotIds);
     },
-    [setRoomNames],
+    [setRoomNames, createSummoners],
   );
 
   return (
