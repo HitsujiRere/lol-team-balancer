@@ -3,6 +3,7 @@ import { useShallow } from "zustand/shallow";
 import { MuteToggle } from "@/components/MuteToggle";
 import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Tier } from "@/models/Tier";
 import { useSummonersStore } from "@/stores/useSummonersStore";
@@ -41,6 +42,13 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <Checkbox checked={checked} onCheckedChange={checkedChangeHandler} />
       </TableCell>
       <TableCell>{name}</TableCell>
+      <TableCell>
+        <Input
+          className="w-20 bg-background shadow-xs transition-all hover:bg-accent dark:border-input dark:hover:bg-input/50"
+          type="number"
+          value={summoner.lv}
+        />
+      </TableCell>
       <TableCell>
         <TierSelect onChange={changeTierHandler} tier={summoner.tier} />
       </TableCell>

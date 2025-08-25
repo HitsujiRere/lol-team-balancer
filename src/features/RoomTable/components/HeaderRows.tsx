@@ -28,10 +28,11 @@ export const HeaderRows = () => {
         <Checkbox checked={checked} onCheckedChange={checkedChangeHandler} />
       </TableHead>
       <TableHead>名前</TableHead>
+      <TableHead>レベル</TableHead>
       <TableHead>ランク</TableHead>
       <TableHead>聞き専</TableHead>
     </TableRow>
   );
 };
 
-export const headerColumns = 4;
+export const headerColumns = 5;
