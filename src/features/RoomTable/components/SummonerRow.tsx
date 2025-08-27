@@ -46,7 +46,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <Input
           className="w-20 bg-background shadow-xs transition-all hover:bg-accent dark:border-input dark:hover:bg-input/50"
           type="number"
-          value={summoner.lv}
+          value={summoner.level ?? 0}
         />
       </TableCell>
       <TableCell>

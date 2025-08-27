@@ -4,7 +4,7 @@ export const newSummoner = (): Summoner => {
   return {
     name: "",
     riotId: undefined,
-    lv: undefined,
+    level: undefined,
     tier: undefined,
     isMute: false,
   };

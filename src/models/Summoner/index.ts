@@ -4,7 +4,7 @@ import type { Tier } from "@/models/Tier";
 export type Summoner = {
   name: string;
   riotId?: RiotId;
-  lv?: number;
+  level?: number;
   tier?: Tier;
   isMute: boolean;
 };
