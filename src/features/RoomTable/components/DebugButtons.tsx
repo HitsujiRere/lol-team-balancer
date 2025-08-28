@@ -15,6 +15,15 @@ export const DebugButtons = () => {
   const roomNames = useRoomStore(useShallow((state) => state.names));
   const changeSummoner = useSummonersStore((state) => state.change);
 
+  const randomizeLevel = React.useCallback(
+    (min: number, max: number) => {
+      roomNames.forEach((name) => {
+        const level = Math.floor((max - min + 1) * Math.random() + min);
+        changeSummoner(name, { level });
+      });
+    },
+    [roomNames, changeSummoner],
+  );
   const randomizeSummonersTier = React.useCallback(
     (tiers: readonly Tier[]) => {
       roomNames.forEach((name) => {
@@ -25,6 +34,9 @@ export const DebugButtons = () => {
     [roomNames, changeSummoner],
   );
 
+  const click1to100LevelHandler = React.useCallback(() => {
+    randomizeLevel(1, 100);
+  }, [randomizeLevel]);
   const clickAllTiersHandler = React.useCallback(() => {
     randomizeSummonersTier(TIERS);
   }, [randomizeSummonersTier]);
@@ -34,6 +46,16 @@ export const DebugButtons = () => {
 
   return (
     <>
+      <Button
+        className={cn({ hidden: !debugMode })}
+        onClick={click1to100LevelHandler}
+        size="sm"
+        variant="outline"
+      >
+        <BugIcon />
+        仮レベル設定 (1~100)
+      </Button>
+
       <Button
         className={cn({ hidden: !debugMode })}
         onClick={clickAllTiersHandler}
