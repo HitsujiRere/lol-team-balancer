@@ -1,9 +1,9 @@
 import React from "react";
 import { useShallow } from "zustand/shallow";
+import { LevelInput } from "@/components/LevelInput";
 import { MuteToggle } from "@/components/MuteToggle";
 import { TierSelect } from "@/components/TierSelect";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Tier } from "@/models/Tier";
 import { useSummonersStore } from "@/stores/useSummonersStore";
@@ -27,6 +27,10 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
   );
   const changeSummoner = useSummonersStore((state) => state.change);
 
+  const changeLevelHandler = React.useCallback(
+    (level: number) => changeSummoner(name, { level }),
+    [name, changeSummoner],
+  );
   const changeTierHandler = React.useCallback(
     (tier: Tier) => changeSummoner(name, { tier }),
     [name, changeSummoner],
@@ -43,10 +47,10 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
       </TableCell>
       <TableCell>{name}</TableCell>
       <TableCell>
-        <Input
-          className="w-20 bg-background shadow-xs transition-all hover:bg-accent dark:border-input dark:hover:bg-input/50"
-          type="number"
-          value={summoner.level ?? 0}
+        <LevelInput
+          className="w-24 bg-background shadow-xs transition-all hover:bg-accent dark:border-input dark:hover:bg-input/50"
+          level={summoner.level}
+          onLevelChange={changeLevelHandler}
         />
       </TableCell>
       <TableCell>
