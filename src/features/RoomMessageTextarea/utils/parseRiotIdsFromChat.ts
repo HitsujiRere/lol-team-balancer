@@ -1,6 +1,11 @@
 import { parseToRiotId, type RiotId } from "@/models/RiotId";
 
-export const parseMessageToRiotIds = (chat: string): RiotId[] => {
+/**
+ * ルームチャットからRiotIdを抽出します
+ * @param chat ルームチャット
+ * @returns
+ */
+export const parseRiotIdsFromChat = (chat: string): RiotId[] => {
   const names = Array.from(
     chat.match(/^.+ #.+(?=(がロビーに参加しました。| joined the lobby)$)/gm) ??
       [],

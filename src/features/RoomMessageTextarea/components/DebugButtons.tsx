@@ -5,33 +5,44 @@ import { cn } from "@/lib/utils";
 import { useDebugStore } from "@/stores/useDebugStore";
 
 export type DebugButtonProps = {
-  ref: React.RefObject<HTMLTextAreaElement | null>;
+  /**
+   * デバッグするルームチャットのref
+   */
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 };
 
-export const DebugButtons = ({ ref }: DebugButtonProps) => {
+/**
+ * ルームチャットテキストエリアのデバッグ用ボタン
+ * @returns
+ */
+export const DebugButtons = ({ textareaRef }: DebugButtonProps) => {
   const debugMode = useDebugStore((state) => state.debugMode);
 
-  const clickHandler = React.useCallback(() => {
-    if (ref.current === null) return;
+  // textareaRefで指定されたtextareaにランダムなチャットを設定する
+  const setRandomMessageInTextarea = React.useCallback(() => {
+    if (textareaRef.current === null) {
+      return;
+    }
 
-    const value = names
+    const newValue = names
       .map((name) => `${name}${Math.floor(Math.random() * 100)} #DEBUG`)
       .map((name) => `${name}がロビーに参加しました。`)
       .join("\n");
 
+    // onChangeイベントを発火させる
     const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
       window.HTMLTextAreaElement.prototype,
       "value",
     )?.set;
-    nativeInputValueSetter?.call(ref.current, value);
-    ref.current.dispatchEvent(new Event("input", { bubbles: true }));
-  }, [ref]);
+    nativeInputValueSetter?.call(textareaRef.current, newValue);
+    textareaRef.current.dispatchEvent(new Event("input", { bubbles: true }));
+  }, [textareaRef]);
 
   return (
     <div>
       <Button
         className={cn({ hidden: !debugMode })}
-        onClick={clickHandler}
+        onClick={setRandomMessageInTextarea}
         size="sm"
         variant="outline"
       >

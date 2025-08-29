@@ -3,25 +3,24 @@
 import { MessageSquareIcon } from "lucide-react";
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { toName } from "@/models/RiotId";
 import { useRoomStore } from "@/stores/useRoomStore";
-import { useSummonersStore } from "@/stores/useSummonersStore";
 import { DebugButtons } from "./components/DebugButtons";
-import { parseMessageToRiotIds } from "./utils/parseMessageToRiotIds";
+import { parseRiotIdsFromChat } from "./utils/parseRiotIdsFromChat";
 
+/**
+ * ルームチャットをコピーペーストするテキストエリア
+ */
 export const RoomMessageTextarea = () => {
-  const ref = React.useRef(null);
+  const setRoomNames = useRoomStore((state) => state.setNamesByRiotIds);
 
-  const setRoomNames = useRoomStore((state) => state.setNames);
-  const createSummoners = useSummonersStore((state) => state.createByRiotIds);
+  const textareaRef = React.useRef(null);
 
-  const changeHandler = React.useCallback(
+  const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const riotIds = parseMessageToRiotIds(event.target.value);
-      setRoomNames(riotIds.map((riotId) => toName(riotId)));
-      createSummoners(riotIds);
+      const riotIds = parseRiotIdsFromChat(event.target.value);
+      setRoomNames(riotIds);
     },
-    [setRoomNames, createSummoners],
+    [setRoomNames],
   );
 
   return (
@@ -31,15 +30,14 @@ export const RoomMessageTextarea = () => {
           <MessageSquareIcon className="size-5" />
           ルームチャット
         </h2>
-
-        <DebugButtons ref={ref} />
+        <DebugButtons textareaRef={textareaRef} />
       </div>
 
       <Textarea
         className="field-sizing-content min-h-32"
-        onChange={changeHandler}
+        onChange={handleChange}
         placeholder="さもなー #JP1がロビーに参加しました。"
-        ref={ref}
+        ref={textareaRef}
       />
     </>
   );

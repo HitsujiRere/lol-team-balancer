@@ -4,6 +4,9 @@ import { BugIcon } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 import { useDebugStore } from "@/stores/useDebugStore";
 
+/**
+ * ページ共通ヘッダー
+ */
 export const Header = () => {
   const debugMode = useDebugStore((state) => state.debugMode);
   const toggleDebugMode = useDebugStore((state) => state.toggleMode);
